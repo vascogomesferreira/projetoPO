@@ -10,9 +10,9 @@ import woo.core.StoreManager;
  * Advance current date.
  */
 public class DoAdvanceDate extends Command<StoreManager> {
-  
-  //FIXME add input fields
 
+  //FIXME add input fields
+  // ola
   public DoAdvanceDate(StoreManager receiver) {
     super(Label.ADVANCE_DATE, receiver);
     //FIXME init input fields
