@@ -17,7 +17,7 @@ public class Store implements Serializable {
 
   // FIXME define attributes
   // Stores the date
-  private Date _date;
+  private int _date;
 
   // FIXME define contructor(s)
   public Store(){
