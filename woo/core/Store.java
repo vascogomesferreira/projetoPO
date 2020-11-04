@@ -16,8 +16,21 @@ public class Store implements Serializable {
   private static final long serialVersionUID = 202009192006L;
 
   // FIXME define attributes
+  // Stores the date
+  private int _date;
+
   // FIXME define contructor(s)
+
   // FIXME define methods
+  // Increases the date by the number of days
+  protected int getDate(){
+    return _date.getCurrentDate();
+  }
+
+  protected void advanceDay(int numberOfDays){
+    _date.advanceDay(numberOfDays);
+
+  }
 
   /**
    * @param txtfile filename to be loaded.
