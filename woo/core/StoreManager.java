@@ -22,6 +22,13 @@ public class StoreManager {
   //FIXME define other attributes
   //FIXME define constructor(s)
   //FIXME define other methods
+  public int getCurrentDate(){
+    return _store.getDate();
+  }
+
+  public void advanceDay(int numberOfDays){
+    return _store.advanceDay(numberOfDays);
+  }
 
   /**
    * @throws IOException
