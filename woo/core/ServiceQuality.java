@@ -7,10 +7,10 @@ public enum ServiceQuality {
   private String _serviceQuality;
 
   private ServiceQuality(String serviceQuality) {
-    _serviceQuality = servicequality;
+    _serviceQuality = serviceQuality;
   }
 
   public String toString() {
-    return _servicequality;
+    return _serviceQuality;
   }
 }

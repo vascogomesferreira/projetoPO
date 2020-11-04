@@ -6,7 +6,7 @@ public enum ServiceLevel {
 
   private String _serviceLevel;
 
-  private ServiceLevel(String ServiceLevel) {
+  private ServiceLevel(String serviceLevel) {
     _serviceLevel = serviceLevel;
   }
 
