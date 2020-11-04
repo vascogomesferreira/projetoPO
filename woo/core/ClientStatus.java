@@ -6,7 +6,7 @@ public enum ClientStatus {
 
   private String _clientStatus;
 
-  private ServiceQuality(String clientStatus) {
+  private ClientStatus(String clientStatus) {
     _clientStatus = clientStatus;
   }
 
