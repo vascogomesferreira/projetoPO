@@ -27,7 +27,7 @@ public class StoreManager {
   }
 
   public void advanceDay(int numberOfDays){
-    return _store.advanceDay(numberOfDays);
+    _store.advanceDay(numberOfDays);
   }
 
   /**
