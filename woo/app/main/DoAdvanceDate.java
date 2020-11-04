@@ -21,6 +21,6 @@ public class DoAdvanceDate extends Command<StoreManager> {
   @Override
   public final void execute() throws DialogException {
     _form.parse();
-    _reciever.advanceDay(_numberOfDays.value());
+    _receiver.advanceDay(_numberOfDays.value());
   }
 }
