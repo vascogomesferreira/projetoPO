@@ -11,12 +11,12 @@ import woo.core.StoreManager;
  */
 public class DoOpen extends Command<StoreManager> {
 
-  //FIXME add input fields
+  private Input<String> _filename;
 
   /** @param receiver */
   public DoOpen(StoreManager receiver) {
     super(Label.OPEN, receiver);
-    //FIXME init input fields
+    _filename = _form.addStringInput(Message.openFile());
   }
 
   /** @see pt.tecnico.po.ui.Command#execute() */

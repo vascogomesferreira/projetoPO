@@ -11,8 +11,6 @@ import woo.core.StoreManager;
  */
 public class DoDisplayDate extends Command<StoreManager> {
 
-  //FIXME add input fields
-
   public DoDisplayDate(StoreManager receiver) {
     super(Label.SHOW_DATE, receiver);
   }

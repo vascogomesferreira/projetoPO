@@ -10,7 +10,7 @@ public class Product implements Serializable {
   private String _id;
 
   protected Product(String id, int crit, int q){
-
+    
   }
 
   @Override

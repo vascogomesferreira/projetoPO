@@ -1,13 +1,26 @@
 package woo.core;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Client implements Serializable {
 
-  private int _cost;
-  private int _id;
-  private int _date;
+  private String _id;
+  private String _name;
+  private String _address;
+  private ClientStatus _status;
+  private int _points;
+
+  protected Client(){
+
+  }
+
+  public getTransactions(){
+
+  }
+
+  @Override
+  public String toString() {
+    return getId() + " | " + getName() + " | " + getAddress() + " | "
+          + getStatus() + " | " + getMadePurchases() + " | " + getPaidPurchases();
+  }
 }

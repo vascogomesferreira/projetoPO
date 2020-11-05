@@ -4,17 +4,11 @@ import java.io.Serializable;
 
 public class Book extends Product implements Serializable {
 
-  private int _price;
-  private int _criticalValue;
-  private int _currentQuantity;
   private String _id;
+  private String _author;
+  private String _isbn;
 
   protected Book(String id, int crit, int q){
-    
-  }
-
-  @Override
-  public String toString() {
 
   }
 }
