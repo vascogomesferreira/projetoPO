@@ -15,11 +15,10 @@ public class DoDisplayDate extends Command<StoreManager> {
 
   public DoDisplayDate(StoreManager receiver) {
     super(Label.SHOW_DATE, receiver);
-    //FIXME init input fields
   }
 
   @Override
   public final void execute() throws DialogException {
-    //FIXME implement command
+    _display.popup(Message.currentDate(_receiver.getCurrentDate()));
   }
 }
