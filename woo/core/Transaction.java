@@ -10,4 +10,17 @@ abstract public class Transaction implements Serializable {
   private int _cost;
   private int _id;
   private int _date;
+
+  protected Transaction(int id, int cost, int date){
+
+  }
+
+  public int getCost() {
+    return _cost;
+  }
+
+  @Override
+  public String toString() {
+    return getId() + " | " ;
+  }
 }

@@ -18,6 +18,10 @@ public class Store implements Serializable {
   // FIXME define attributes
   // Stores the date
   private int _date;
+  private Map<String, Product> _products;
+  private Map<Integer, Transaction> _transactions;
+  private Map<String, Client> _clients;
+  private Map<String, Supplier> _suppliers;
 
   // FIXME define contructor(s)
   public Store(){
