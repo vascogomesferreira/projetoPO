@@ -21,18 +21,18 @@ public class Store implements Serializable {
 
   // FIXME define contructor(s)
   public Store(){
-    _date = new Date();
+    _date = 0;
   }
 
   // FIXME define methods
   // Increases the date by the number of days
   protected int getDate(){
-    return _date.getCurrentDate();
+    return _date;
   }
 
   protected void advanceDay(int numberOfDays){
-    _date.advanceDay(numberOfDays);
-
+    if (numberOfDays != 0)
+      _date += numberOfDays;
   }
 
   /**
