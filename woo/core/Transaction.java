@@ -21,8 +21,10 @@ abstract public class Transaction implements Serializable {
     return _cost;
   }
 
-  @Override
-  public String toString() {
-    return getId() + " | " ;
+  public int getId(){
+    return _id;
   }
+
+  @Override
+  public abstract String toString();
 }

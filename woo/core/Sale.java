@@ -23,6 +23,6 @@ public class Sale extends Transaction implements Serializable {
 
   @Override
   public String toString() {
-    return getPaymentDate();
+    return getPaymentDate() + " | ";
   }
 }

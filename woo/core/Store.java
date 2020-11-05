@@ -2,6 +2,10 @@ package woo.core;
 
 //FIXME import classes (cannot import from pt.tecnico or woo.app)
 import java.io.Serializable;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 import java.io.IOException;
 
@@ -18,6 +22,8 @@ public class Store implements Serializable {
   // FIXME define attributes
   // Stores the date
   private int _date;
+  private int _nextTransactionId;
+
   private Map<String, Product> _products;
   private Map<Integer, Transaction> _transactions;
   private Map<String, Client> _clients;

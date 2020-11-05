@@ -14,11 +14,11 @@ public class Book extends Product implements Serializable {
     _isbn = isbn;
   }
 
-  public void getAuthor() {
+  public String getAuthor() {
     return _author;
   }
 
-  public void getIsbn() {
+  public String getIsbn() {
     return _isbn;
   }
 }

@@ -10,7 +10,7 @@ import woo.core.StoreManager;
 public class DoOpenMenuSuppliers extends Command<StoreManager> {
 
   public DoOpenMenuSuppliers(StoreManager receiver) {
-    super(Label.OPEM_MENU_SUPPLIERS, receiver);
+    super(Label.OPEN_MENU_SUPPLIERS, receiver);
   }
 
   @Override

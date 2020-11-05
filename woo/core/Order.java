@@ -11,8 +11,12 @@ public class Order extends Transaction implements Serializable {
     _supplier = sup;
   }
 
+  public Supplier getSupplier(){
+    return _supplier;
+  }
+
   @Override
   public String toString() {
-    
+    return " | ";
   }
 }

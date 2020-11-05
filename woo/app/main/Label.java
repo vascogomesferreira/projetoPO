@@ -23,19 +23,19 @@ public final class Label {
   public static final String ADVANCE_DATE = "Avançar Data";
 
   /** Product management. */
-  public static final String OPEM_MENU_PRODUCTS = "Gestão de Produtos";
+  public static final String OPEN_MENU_PRODUCTS = "Gestão de Produtos";
 
   /** Route management. */
-  public static final String OPEM_MENU_CLIENTS = "Gestão de Clientes";
+  public static final String OPEN_MENU_CLIENTS = "Gestão de Clientes";
 
   /** Trip management. */
-  public static final String OPEM_MENU_SUPPLIERS = "Gestão de Fornecedores";
+  public static final String OPEN_MENU_SUPPLIERS = "Gestão de Fornecedores";
 
   /** Reservation management. */
-  public static final String OPEM_MENU_TRANSACTIONS = "Gestão de Transacções";
+  public static final String OPEN_MENU_TRANSACTIONS = "Gestão de Transacções";
 
   /** Lookups. */
-  public static final String OPEM_MENU_LOOKUPS = "Menu de Consultas";
+  public static final String OPEN_MENU_LOOKUPS = "Menu de Consultas";
 
   /** Show balance. */
   public static final String SHOW_BALANCE = "Ver Saldo Global";

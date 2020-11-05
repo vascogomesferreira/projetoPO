@@ -11,8 +11,12 @@ public class Box extends Product implements Serializable {
     _serviceLevel = s;
   }
 
+  public ServiceLevel getServiceLevel(){
+    return _serviceLevel;
+  }
+
   @Override
   public String toString() {
-
+    return getId();
   }
 }
