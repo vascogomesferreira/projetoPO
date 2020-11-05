@@ -14,7 +14,7 @@ public class Client implements Serializable {
 
   }
 
-  public getTransactions(){
+  public List<Transaction> getTransactions(){
 
   }
 

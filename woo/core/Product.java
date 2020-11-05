@@ -9,8 +9,8 @@ public class Product implements Serializable {
   private int _currentQuantity;
   private String _id;
 
-  protected Product(String id, int crit, int q){
-    
+  protected Product(String id, int price, int crit, int q){
+
   }
 
   @Override
