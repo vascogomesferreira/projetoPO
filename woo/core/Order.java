@@ -4,32 +4,15 @@ import java.io.Serializable;
 
 public class Order extends Transaction implements Serializable {
 
-  protected Order(){
+  private Supplier _supplier;
 
-  }
-
-  public String getIgac(){
-    return _igac;
-  }
-
-  public String getDirector(){
-    return _director;
-  }
-
-  @Override
-  public String getResponsible(){
-    return getDirector();
-  }
-
-  @Override
-  public String getType(){
-    return "DVD";
+  protected Order(int id, int cost, int date, Supplier sup){
+    super(id, cost, date);
+    _supplier = sup;
   }
 
   @Override
   public String toString() {
-    return getId() + " - " + getRemainingCopies() + " de " + getNumberOfCopies() + " - "
-          + getType() + " - " + getTitle() + " - " + getPrice() + " - " + getCategory().toString()
-          + " - " + getDirector() + " - " + getIgac();
+    
   }
 }
