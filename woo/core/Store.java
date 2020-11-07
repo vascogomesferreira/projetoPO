@@ -40,8 +40,14 @@ public class Store implements Serializable {
     _suppliers = new HashMap<>();
   }
 
+  protected void registerProductContainer(String id, String supplierId, int price, int crit, int q, ServiceType s, ServiceLevel level) {
+    _products.put(id, new Container(id, supplierId, price, crit, q, s, level));
+  }
+
   protected void addProduct(Product product){
-    _products.put(product.getId(),product);
+    String id = product.getId();
+    _products.put(id,product);
+    System.out.println(id);
   }
 
   protected List<Product> getAllProducts(){

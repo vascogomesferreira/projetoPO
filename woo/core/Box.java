@@ -6,8 +6,8 @@ public class Box extends Product implements Serializable {
 
   private ServiceType _serviceType;
 
-  protected Box(String id, int price, int crit, int q, ServiceType s){
-    super(id, price, crit, q);
+  protected Box(String id, String supplierId, int price, int crit, int q, ServiceType s){
+    super(id, supplierId, price, crit, q);
     _serviceType = s;
   }
 
@@ -17,7 +17,7 @@ public class Box extends Product implements Serializable {
 
   @Override
   public String toString() {
-    return getId() + " | " + getSupplier() + " | " + getPrice() + " | " + getCriticalValue() + " | "
+    return getId() + " | " + getSupplierId() + " | " + getPrice() + " | " + getCriticalValue() + " | "
           + getCurrentQuantity() + " | " + getServiceType();
   }
 }

@@ -6,15 +6,17 @@ import java.util.HashMap;
 
 abstract public class Product implements Serializable {
 
+  private String _id;
+  private String _supplierId;
   private int _price;
   private int _criticalValue;
   private int _currentQuantity;
-  private String _id;
-  private Supplier _supplier;
+
   private Map<String, Client> _clients;
 
-  protected Product(String id, int price, int crit, int q){
+  protected Product(String id, String supplierId, int price, int crit, int q){
     _id = id;
+    _supplierId = supplierId;
     _price = price;
     _criticalValue = crit;
     _currentQuantity = q;
@@ -23,6 +25,10 @@ abstract public class Product implements Serializable {
 
   public String getId(){
     return _id;
+  }
+
+  public String getSupplierId(){
+    return _supplierId;
   }
 
   public int getPrice(){
@@ -35,10 +41,6 @@ abstract public class Product implements Serializable {
 
   public int getCurrentQuantity(){
     return _currentQuantity;
-  }
-
-  public String getSupplier() {
-    return _supplier.getId();
   }
 
 

@@ -22,6 +22,10 @@ public class StoreManager {
   /** The actual store. */
   private Store _store = new Store();
 
+  public void registerProductContainer(String id, String supplierId, int price, int crit, int q, ServiceType s, ServiceLevel level) {
+    _store.registerProductContainer(id, supplierId, price, crit, q, s, level);
+  }
+
   public void addProduct(Product product){
     _store.addProduct(product);
   }

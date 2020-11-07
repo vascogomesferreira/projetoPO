@@ -4,7 +4,11 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
+
+import woo.core.Product;
+import woo.core.Container;
+import woo.core.ServiceType;
+import woo.core.ServiceLevel;
 
 /**
  * Register container.
@@ -26,13 +30,14 @@ public class DoRegisterProductContainer extends Command<StoreManager> {
     _supplierId = _form.addStringInput(Message.requestSupplierKey());
     _serviceType = _form.addStringInput(Message.requestServiceType());
     _serviceLevel = _form.addStringInput(Message.requestServiceLevel());
+
   }
 
   @Override
   public final void execute() throws DialogException {
     _form.parse();
+    _receiver.registerProductContainer(_id.value(), _supplierId.value(), _price.value().intValue(), _criticalValue.value().intValue(), 0 , ServiceType.valueOf(_serviceType.value()), ServiceLevel.valueOf(_serviceLevel.value()));
 
-    // _display.add(Message.userRegistrationSuccessful(_receiver.registerUser(_name.value(), _mail.value())));
     _display.display();
   }
 }

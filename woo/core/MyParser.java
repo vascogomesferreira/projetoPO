@@ -89,7 +89,7 @@ public class MyParser {
     int crit = Integer.parseInt(components[5]);
     int q = Integer.parseInt(components[6]);
 
-    Box box = new Box(id, price, crit, q , s);
+    Box box = new Box(id, sup, price, crit, q , s);
 
     _store.addProduct(box);
   }
@@ -108,7 +108,7 @@ public class MyParser {
       int crit = Integer.parseInt(components[7]);
       int q = Integer.parseInt(components[8]);
 
-      Book book = new Book(id, price, crit, q, title, author, isbn);
+      Book book = new Book(id, sup, price, crit, q, title, author, isbn);
 
       _store.addProduct(book);
   }
@@ -127,7 +127,7 @@ public class MyParser {
       int q = Integer.parseInt(components[7]);
 
 
-      Container container = new Container(id, price, crit, q , s, level);
+      Container container = new Container(id, sup, price, crit, q , s, level);
 
       _store.addProduct(container);
   }

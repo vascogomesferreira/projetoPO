@@ -6,8 +6,8 @@ public class Container extends Box implements Serializable {
 
   private ServiceLevel _serviceLevel;
 
-  protected Container(String id, int price, int crit, int q, ServiceType s, ServiceLevel level){
-      super(id, price, crit, q, s);
+  protected Container(String id, String supplierId, int price, int crit, int q, ServiceType s, ServiceLevel level){
+      super(id, supplierId, price, crit, q, s);
       _serviceLevel = level;
   }
 
@@ -17,7 +17,7 @@ public class Container extends Box implements Serializable {
 
   @Override
   public String toString() {
-    return getId() + " | " + getSupplier() + " | " + getPrice() + " | " + getCriticalValue() + " | "
+    return getId() + " | " + getSupplierId() + " | " + getPrice() + " | " + getCriticalValue() + " | "
           + getCurrentQuantity() + " | " + getServiceType() + " | " + getServiceLevel();
   }
 }
