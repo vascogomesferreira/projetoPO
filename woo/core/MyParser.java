@@ -62,9 +62,7 @@ public class MyParser {
     String name = components[2];
     String address = components[3];
 
-    // create/register supplier?
-    // for example, _store.registerSupplier(id, name, address);
-    // or use _store.registerSupplier(components[1];, components[2], components[3]);;
+    // _store.registerSupplier(id, name, address);
   }
 
   // Format: CLIENT|id|nome|endereço
@@ -72,17 +70,28 @@ public class MyParser {
     if (components.length != 4)
       throw new BadEntryException("Invalid number of fields (4) in client description: " + line);
 
-    // add code here
+      String id = components[1];
+      String name = components[2];
+      String address = components[3];
+
+      // _store.registerClient(id, name, address);
   }
 
   // Format: BOX|id|tipo-de-serviço|id-fornecedor|preço|valor-crítico|exemplares
   private void parseBox(String line, String[] components) throws BadEntryException {
     if (components.length != 7)
-      throw new BadEntryException("wrongr number of fields in box description  (7) " + line);
+      throw new BadEntryException("wrong number of fields in box description  (7) " + line);
 
-    // ...
+    String id = components[1];
+    ServiceType s = ServiceType.valueOf(components[2]);
+    String sup = String.valueOf(components[3]);
     int price = Integer.parseInt(components[4]);
-    // add code here
+    int crit = Integer.parseInt(components[5]);
+    int q = Integer.parseInt(components[6]);
+
+    Box box = new Box(id, price, crit, q , s);
+
+    _store.addProduct(box);
   }
 
   // Format: BOOK|id|título|autor|isbn|id-fornecedor|preço|valor-crítico|exemplares
@@ -90,7 +99,18 @@ public class MyParser {
    if (components.length != 9)
       throw new BadEntryException("Invalid number of fields (9) in box description: " + line);
 
-   // add code here
+      String id = components[1];
+      String title = components[2];
+      String author = components[3];
+      String isbn = components[4];
+      String sup = String.valueOf(components[5]);
+      int price = Integer.parseInt(components[6]);
+      int crit = Integer.parseInt(components[7]);
+      int q = Integer.parseInt(components[8]);
+
+      Book book = new Book(id, price, crit, q, title, author, isbn);
+
+      _store.addProduct(book);
   }
 
   // Format: CONTAINER|id|tipo-de-serviço|nível-de-serviço|id-fornecedor|preço|valor-crítico|exemplares
@@ -98,6 +118,17 @@ public class MyParser {
     if (components.length != 8)
       throw new BadEntryException("Invalid number of fields (8) in container description: " + line);
 
-    // add code here
+      String id = components[1];
+      ServiceType s = ServiceType.valueOf(components[2]);
+      ServiceLevel level = ServiceLevel.valueOf(components[3]);
+      String sup = String.valueOf(components[4]);
+      int price = Integer.parseInt(components[5]);
+      int crit = Integer.parseInt(components[6]);
+      int q = Integer.parseInt(components[7]);
+
+
+      Container container = new Container(id, price, crit, q , s, level);
+
+      _store.addProduct(container);
   }
 }

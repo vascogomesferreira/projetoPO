@@ -29,10 +29,19 @@ abstract public class Product implements Serializable {
     return _price;
   }
 
+  public int getCriticalValue(){
+    return _criticalValue;
+  }
+
+  public int getCurrentQuantity(){
+    return _currentQuantity;
+  }
+
+  public String getSupplier() {
+    return _supplier.getId();
+  }
 
 
   @Override
-  public String toString() {
-    return getId();
-  }
+  public abstract String toString();
 }

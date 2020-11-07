@@ -8,6 +8,9 @@ import woo.core.exception.MissingFileAssociationException;
 import woo.core.exception.ImportFileException;
 import woo.core.exception.BadEntryException;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * StoreManager: façade for the core classes.
  */
@@ -19,9 +22,14 @@ public class StoreManager {
   /** The actual store. */
   private Store _store = new Store();
 
-  //FIXME define other attributes
-  //FIXME define constructor(s)
-  //FIXME define other methods
+  public void addProduct(Product product){
+    _store.addProduct(product);
+  }
+
+  public List<Product> getAllProducts(){
+      return _store.getAllProducts();
+    }
+
   public int getCurrentDate(){
     return _store.getDate();
   }

@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 
 import java.io.IOException;
 
@@ -32,9 +34,29 @@ public class Store implements Serializable {
   // FIXME define contructor(s)
   public Store(){
     _date = 0;
+    _products = new HashMap<>();
+    _transactions = new HashMap<>();
+    _clients = new HashMap<>();
+    _suppliers = new HashMap<>();
   }
 
-  // FIXME define methods
+  protected void addProduct(Product product){
+    _products.put(product.getId(),product);
+  }
+
+  protected List<Product> getAllProducts(){
+    List<Product> products = new ArrayList<Product>(_products.values());
+
+    Comparator<Product> comparator = new Comparator<Product>() {
+      public int compare(Product p1, Product p2) {
+        return p1.getId().compareTo(p2.getId());
+      }
+    };
+
+    products.sort(comparator);
+    return products;
+  }
+
   // Increases the date by the number of days
   protected int getDate(){
     return _date;

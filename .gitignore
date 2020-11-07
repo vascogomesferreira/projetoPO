@@ -1,2 +1,10 @@
 
 *.class
+
+runtests.sh
+
+*.in
+
+*.out
+
+tests/

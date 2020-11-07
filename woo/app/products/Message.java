@@ -23,14 +23,14 @@ public class Message {
    * @return string prompting for service type.
    */
   public static String requestServiceType() {
-    return "Tipo de serviço: ";
+    return "Tipo de serviço de transporte: ";
   }
 
   /**
    * @return string prompting for service level.
    */
   public static String requestServiceLevel() {
-    return "Tipo de serviço: ";
+    return "Qualidade de serviço: ";
   }
 
   /**
