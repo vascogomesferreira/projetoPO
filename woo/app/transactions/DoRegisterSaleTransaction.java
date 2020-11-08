@@ -4,18 +4,27 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
 
+import woo.core.Transaction;
+import woo.core.Product;
+import woo.core.Client;
 /**
  * Register sale.
  */
 public class DoRegisterSaleTransaction extends Command<StoreManager> {
 
-  //FIXME add input fields
+  private Input<String> _clientId;
+  private Input<Integer> _paymentDeadline;
+  private Input<String> _productId;
+  private Input<Integer> _quantity;
 
   public DoRegisterSaleTransaction(StoreManager receiver) {
     super(Label.REGISTER_SALE_TRANSACTION, receiver);
-    //FIXME init input fields
+    _clientId = _form.addStringInput(Message.requestClientKey());
+    _paymentDeadline = _form.addIntegerInput(Message.requestPaymentDeadline());
+    _productId = _form.addStringInput(Message.requestProductKey());
+    _quantity = _form.addIntegerInput(Message.requestAmount());
+
   }
 
   @Override

@@ -4,18 +4,20 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
+
+import woo.core.Supplier;
+import woo.core.transaction;
 
 /**
  * Show all transactions for specific supplier.
  */
 public class DoShowSupplierTransactions extends Command<StoreManager> {
 
-  //FIXME add input fields
+  private Input<String> _supplierId;
 
   public DoShowSupplierTransactions(StoreManager receiver) {
     super(Label.SHOW_SUPPLIER_TRANSACTIONS, receiver);
-    //FIXME init input fields
+    _supplierId = _form.addStringInput(Message.requestSupplierKey());
   }
 
   @Override

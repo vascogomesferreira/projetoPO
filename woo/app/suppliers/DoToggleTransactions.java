@@ -4,18 +4,20 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
+
+import woo.core.Transaction;
+import woo.core.supplier;
 
 /**
  * Enable/disable supplier transactions.
  */
 public class DoToggleTransactions extends Command<StoreManager> {
 
-  //FIXME add input fields
+  private Input<String> _supplierId;
 
   public DoToggleTransactions(StoreManager receiver) {
     super(Label.TOGGLE_TRANSACTIONS, receiver);
-    //FIXME init input fields
+    _supplierId = _form.addStringInput(Message.requestSupplierKey());
   }
 
   @Override

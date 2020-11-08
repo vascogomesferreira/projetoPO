@@ -4,18 +4,16 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
+
+import woo.core.Transaction;
 
 /**
  * Show global balance.
  */
 public class DoShowGlobalBalance extends Command<StoreManager> {
 
-  //FIXME add input fields
-
   public DoShowGlobalBalance(StoreManager receiver) {
     super(Label.SHOW_BALANCE, receiver);
-    //FIXME init input fields
   }
 
   @Override

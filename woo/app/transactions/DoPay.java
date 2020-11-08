@@ -4,18 +4,19 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
+
+import woo.core.Transaction;
 
 /**
  * Pay transaction (sale).
  */
 public class DoPay extends Command<StoreManager> {
 
-  //FIXME add input fields
-  
+  private Input<Integer> _transactionId;
+
   public DoPay(StoreManager storefront) {
     super(Label.PAY, storefront);
-    //FIXME init input fields
+    _transactionId = _form.addIntegerInput(Message.requestTransactionKey());
   }
 
   @Override

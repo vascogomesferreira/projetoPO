@@ -11,11 +11,11 @@ import woo.core.StoreManager;
  */
 public class DoLookupPaymentsByClient extends Command<StoreManager> {
 
-  //FIXME add input fields
+  private Input<String> _clientId;
 
   public DoLookupPaymentsByClient(StoreManager storefront) {
     super(Label.PAID_BY_CLIENT, storefront);
-    //FIXME init input fields
+    _clientId = _form.addStringInput(Message.requestClientKey());
   }
 
   @Override
