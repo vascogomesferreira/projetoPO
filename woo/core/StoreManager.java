@@ -82,7 +82,7 @@ public class StoreManager {
    * @throws FileNotFoundException
    * @throws MissingFileAssociationException
    */
-  public void save() throws IOException, FileNotFoundException, MissingFileAssociationException {
+  public void save() throws IOException, MissingFileAssociationException {
     if (_savefile == null)
       throw new MissingFileAssociationException();
     try (ObjectOutputStream obOut = new ObjectOutputStream(new FileOutputStream(_savefile))) {
@@ -96,10 +96,8 @@ public class StoreManager {
    * @throws IOException
    * @throws FileNotFoundException
    */
-  public void saveAs(String filename) throws MissingFileAssociationException, FileNotFoundException, IOException {
-    if (_filename == null)
-      throw new MissingFileAssociationException();
-    try (ObjectOutputStream obOut = new ObjectOutputStream(new FileOutputStream(_savefile))) {
+  public void saveAs(String filename) throws IOException {
+    try (ObjectOutputStream obOut = new ObjectOutputStream(new FileOutputStream(filename))) {
       obOut.writeObject(_store);
       _savefile = filename;
     }
