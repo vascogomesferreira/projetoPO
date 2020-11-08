@@ -6,7 +6,7 @@ import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
 import woo.core.Transaction;
-import woo.core.supplier;
+import woo.core.Supplier;
 
 /**
  * Enable/disable supplier transactions.

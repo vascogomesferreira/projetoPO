@@ -29,5 +29,4 @@ public class DoRegisterClient extends Command<StoreManager> {
 
     _display.display();
   }
-
 }

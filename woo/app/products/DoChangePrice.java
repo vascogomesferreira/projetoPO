@@ -18,7 +18,7 @@ public class DoChangePrice extends Command<StoreManager> {
   public DoChangePrice(StoreManager receiver) {
     super(Label.CHANGE_PRICE, receiver);
     _productId = _form.addStringInput(Message.requestProductKey());
-    _newPrice = _form.addStringInput(Message.requestPrice());
+    _newPrice = _form.addIntegerInput(Message.requestPrice());
   }
 
   @Override

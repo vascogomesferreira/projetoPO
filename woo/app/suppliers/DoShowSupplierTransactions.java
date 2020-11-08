@@ -6,7 +6,7 @@ import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
 import woo.core.Supplier;
-import woo.core.transaction;
+import woo.core.Transaction;
 
 /**
  * Show all transactions for specific supplier.

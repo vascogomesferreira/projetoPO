@@ -17,7 +17,7 @@ public class DoShowClientTransactions extends Command<StoreManager> {
 
   public DoShowClientTransactions(StoreManager storefront) {
     super(Label.SHOW_CLIENT_TRANSACTIONS, storefront);
-    _clientId = _form.addIntegerInput(Message.requestClientKey());
+    _clientId = _form.addStringInput(Message.requestClientKey());
   }
 
   @Override

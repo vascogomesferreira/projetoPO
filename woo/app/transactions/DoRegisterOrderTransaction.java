@@ -17,7 +17,7 @@ public class DoRegisterOrderTransaction extends Command<StoreManager> {
   private Input<String> _supplierId;
   private Input<String> _productId;
   private Input<Integer> _quantity;
-  private Input<Integer> _more;
+  private Input<Boolean> _more;
 
   public DoRegisterOrderTransaction(StoreManager receiver) {
     super(Label.REGISTER_ORDER_TRANSACTION, receiver);
