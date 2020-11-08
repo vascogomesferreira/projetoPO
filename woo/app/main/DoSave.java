@@ -25,21 +25,17 @@ public class DoSave extends Command<StoreManager> {
   /** @see pt.tecnico.po.ui.Command#execute() */
   @Override
   public final void execute(){
-    // try {
-    //   _receiver.save();
-    // }
-    // catch (MissingFileAssociationException e1)
-    // {
-    //   _form.parse();
-    //   try {
-    //     _receiver.saveAs(_filename.value());
-    //   }
-    //   catch(IOException e3) {
-    //     e3.printStackTrace();
-    //   }
-    // }
-    // catch (IOException e2) {
-    //   e2.printStackTrace();
-    // }
+    try {
+      _receiver.save();
+    } catch (MissingFileAssociationException e1){
+      _form.parse();
+      try {
+        _receiver.saveAs(_filename.value());
+      } catch(IOException e3){
+        e3.printStackTrace();
+      }
+    } catch (IOException e2) {
+      e2.printStackTrace();
+    }
   }
 }

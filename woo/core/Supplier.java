@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
+import woo.app.suppliers.Message;
+
 public class Supplier implements Serializable {
 
   private String _id;
@@ -14,11 +16,11 @@ public class Supplier implements Serializable {
   private boolean _enabled;
   private Map<Integer, Product> _products;
 
-  protected Supplier(String id, String name, String address, boolean enabled){
+  protected Supplier(String id, String name, String address){
     _id = id;
     _name = name;
     _address = address;
-    _enabled = enabled;
+    _enabled = true;
   }
 
   public String getId(){
@@ -33,6 +35,13 @@ public class Supplier implements Serializable {
     return _address;
   }
 
+  public String getEnabled() {
+    if (_enabled)
+      return Message.yes();
+    else
+      return Message.no();
+  }
+
   public boolean toogleActivation(){
     _enabled = !_enabled;
 
@@ -45,6 +54,6 @@ public class Supplier implements Serializable {
 
   @Override
   public String toString() {
-    return getId();
+    return getId() + "|" + getName() + "|" + getAddress() + "|" + getEnabled();
   }
 }

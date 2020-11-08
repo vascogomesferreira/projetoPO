@@ -4,7 +4,10 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
+
+import java.io.IOException;
+import woo.app.exception.FileOpenFailedException;
+import woo.core.exception.UnavailableFileException;
 
 /**
  * Open existing saved state.
@@ -21,14 +24,12 @@ public class DoOpen extends Command<StoreManager> {
 
   /** @see pt.tecnico.po.ui.Command#execute() */
   @Override
-  public final void execute() throws DialogException {
-    /*
+  public final void execute() throws DialogException{
+    _form.parse();
     try {
-      //FIXME implement command
-    } catch (UnavailableFileException ufe) {
-      throw new FileOpenFailedException(ufe.getFilename());
+      _receiver.load(_filename.value());
+    } catch (ClassNotFoundException | IOException e) {
+      e.printStackTrace();
     }
-    */
   }
-
 }

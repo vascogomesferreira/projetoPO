@@ -4,8 +4,8 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
 
+import woo.app.exception.InvalidDateException;
 /**
  * Advance current date.
  */
@@ -21,6 +21,9 @@ public class DoAdvanceDate extends Command<StoreManager> {
   @Override
   public final void execute() throws DialogException {
     _form.parse();
-    _receiver.advanceDay(_numberOfDays.value());
+    // try {
+      _receiver.advanceDay(_numberOfDays.value());
+  //   } catch (InvalidDateException)
+  //
   }
 }

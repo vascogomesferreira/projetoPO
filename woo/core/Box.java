@@ -17,7 +17,7 @@ public class Box extends Product implements Serializable {
 
   @Override
   public String toString() {
-    return getId() + " | " + getSupplierId() + " | " + getPrice() + " | " + getCriticalValue() + " | "
-          + getCurrentQuantity() + " | " + getServiceType();
+    return getId() + "|" + getSupplierId() + "|" + getPrice() + "|" + getCriticalValue() + "|"
+          + getCurrentQuantity() + "|" + getServiceType();
   }
 }

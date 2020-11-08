@@ -5,7 +5,8 @@ import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
-import woo.core.Product;
+import woo.app.exception.DuplicateProductKeyException;
+import woo.app.exception.UnknownSupplierKeyException;
 import woo.core.Container;
 import woo.core.ServiceType;
 import woo.core.ServiceLevel;
@@ -33,11 +34,17 @@ public class DoRegisterProductContainer extends Command<StoreManager> {
 
   }
 
+  // TODO
   @Override
   public final void execute() throws DialogException {
     _form.parse();
-    _receiver.registerProductContainer(_id.value(), _supplierId.value(), _price.value().intValue(), _criticalValue.value().intValue(), 0 , ServiceType.valueOf(_serviceType.value()), ServiceLevel.valueOf(_serviceLevel.value()));
-
-    _display.display();
+    // try {
+      _receiver.registerProductContainer(_id.value(), _supplierId.value(), _price.value().intValue(), _criticalValue.value().intValue(), 0 , ServiceType.valueOf(_serviceType.value()), ServiceLevel.valueOf(_serviceLevel.value()));
+      _display.display();
+    // } catch (DuplicateProductKeyException dpke) {
+    //   throw new DuplicateProductKeyException(_id.value());
+    // } catch (UnknownSupplierKeyException uske) {
+    //   throw new UnknownSupplierKeyException(_supplierId.value());
+    // }
   }
 }

@@ -4,8 +4,8 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-import woo.core.Product;
 
+import woo.core.Product;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;

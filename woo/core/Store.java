@@ -1,6 +1,5 @@
 package woo.core;
 
-//FIXME import classes (cannot import from pt.tecnico or woo.app)
 import java.io.Serializable;
 import java.util.Map;
 import java.util.HashMap;
@@ -10,7 +9,17 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
+import woo.app.exception.InvalidDateException;
+import woo.app.exception.DuplicateProductKeyException;
+import woo.app.exception.UnknownSupplierKeyException;
+
+import woo.core.exception.MissingFileAssociationException;
 import woo.core.exception.BadEntryException;
 
 /**
@@ -40,7 +49,56 @@ public class Store implements Serializable {
     _suppliers = new HashMap<>();
   }
 
-  protected void registerProductContainer(String id, String supplierId, int price, int crit, int q, ServiceType s, ServiceLevel level) {
+  protected List<Supplier> getAllSuppliers(){
+    List<Supplier> suppliers = new ArrayList<Supplier>(_suppliers.values());
+
+    Comparator<Supplier> comparator = new Comparator<Supplier>() {
+      public int compare(Supplier s1, Supplier s2) {
+        return s1.getId().compareTo(s2.getId());
+      }
+    };
+
+    suppliers.sort(comparator);
+    return suppliers;
+  }
+
+  protected void registerSupplier(String id, String name, String address){
+    _suppliers.put(id, new Supplier(id, name, address));
+  }
+
+  protected List<Client> getAllClients(){
+    List<Client> clients = new ArrayList<Client>(_clients.values());
+
+    Comparator<Client> comparator = new Comparator<Client>() {
+      public int compare(Client c1, Client c2) {
+        return c1.getId().compareTo(c2.getId());
+      }
+    };
+
+    clients.sort(comparator);
+    return clients;
+  }
+
+  protected Client getClient(String id) {
+    if (_clients.containsKey(id)) {
+      return _clients.get(id);
+    }
+    return _clients.get(id);
+  }
+
+  protected void registerClient(String id, String name, String address){
+    _clients.put(id, new Client(id, name, address));
+  }
+
+  protected void registerProductBook(String id, String supplierId, int price, int crit, int q, String title, String author, String isbn) /*throws DuplicateProductKeyException, UnknownSupplierKeyException */{
+    _products.put(id, new Book(id, supplierId, price, crit, q, title, author, isbn));
+  }
+
+  protected void registerProductBox(String id, String supplierId, int price, int crit, int q, ServiceType s) /*throws DuplicateProductKeyException, UnknownSupplierKeyException*/ {
+    _products.put(id, new Box(id, supplierId, price, crit, q, s));
+  }
+
+  protected void registerProductContainer(String id, String supplierId, int price, int crit, int q, ServiceType s, ServiceLevel level) /*throws DuplicateProductKeyException, UnknownSupplierKeyException*/ {
     _products.put(id, new Container(id, supplierId, price, crit, q, s, level));
   }
 
@@ -68,9 +126,11 @@ public class Store implements Serializable {
     return _date;
   }
 
-  protected void advanceDay(int numberOfDays){
-    if (numberOfDays != 0)
+  protected int advanceDay(int numberOfDays) /*throws InvalidDateException*/ {
+    if (numberOfDays > 0)
       _date += numberOfDays;
+
+    return numberOfDays;
   }
 
   /**
@@ -79,7 +139,8 @@ public class Store implements Serializable {
    * @throws BadEntryException
    */
   void importFile(String txtfile) throws IOException, BadEntryException /* FIXME maybe other exceptions */ {
-    //FIXME implement method
+    MyParser parse = new MyParser(this);
+    parse.parseFile(txtfile);
   }
 
 }

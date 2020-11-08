@@ -4,23 +4,25 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
-//FIXME import other classes
+
+import woo.core.Client;
 
 /**
  * Show client.
  */
 public class DoShowClient extends Command<StoreManager> {
 
-  //FIXME add input fields
+  private Input<String> _id;
 
   public DoShowClient(StoreManager storefront) {
     super(Label.SHOW_CLIENT, storefront);
-    //FIXME init input fields
+    _id = _form.addStringInput(Message.requestClientKey());
   }
 
   @Override
   public void execute() throws DialogException {
-    //FIXME implement command
+      _form.parse();
+      _display.popup(_receiver.getClient(_id.value()));
   }
 
 }

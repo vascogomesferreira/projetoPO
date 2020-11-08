@@ -8,6 +8,11 @@ import woo.core.exception.MissingFileAssociationException;
 import woo.core.exception.ImportFileException;
 import woo.core.exception.BadEntryException;
 
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -19,8 +24,38 @@ public class StoreManager {
   /** Current filename. */
   private String _filename = "";
 
+  private String _savefile;
+
   /** The actual store. */
   private Store _store = new Store();
+
+  public List<Supplier> getAllSuppliers() {
+    return _store.getAllSuppliers();
+  }
+
+  public void registerSupplier(String id, String name, String address) {
+    _store.registerSupplier(id, name, address);
+  }
+
+  public List<Client> getAllClients() {
+    return _store.getAllClients();
+  }
+
+  public Client getClient(String id) {
+    return _store.getClient(id);
+  }
+
+  public void registerClient(String id, String name, String address) {
+    _store.registerClient(id, name, address);
+  }
+
+  public void registerProductBook(String id, String supplierId, int price, int crit, int q, String title, String author, String isbn) {
+    _store.registerProductBook(id, supplierId, price, crit, q, title, author, isbn);
+  }
+
+  public void registerProductBox(String id, String supplierId, int price, int crit, int q, ServiceType s) {
+    _store.registerProductBox(id, supplierId, price, crit, q, s);
+  }
 
   public void registerProductContainer(String id, String supplierId, int price, int crit, int q, ServiceType s, ServiceLevel level) {
     _store.registerProductContainer(id, supplierId, price, crit, q, s, level);
@@ -38,8 +73,8 @@ public class StoreManager {
     return _store.getDate();
   }
 
-  public void advanceDay(int numberOfDays){
-    _store.advanceDay(numberOfDays);
+  public int advanceDay(int numberOfDays){
+    return _store.advanceDay(numberOfDays);
   }
 
   /**
@@ -48,7 +83,11 @@ public class StoreManager {
    * @throws MissingFileAssociationException
    */
   public void save() throws IOException, FileNotFoundException, MissingFileAssociationException {
-    //FIXME implement serialization method
+    if (_savefile == null)
+      throw new MissingFileAssociationException();
+    try (ObjectOutputStream obOut = new ObjectOutputStream(new FileOutputStream(_savefile))) {
+      obOut.writeObject(_store);
+    }
   }
 
   /**
@@ -58,16 +97,23 @@ public class StoreManager {
    * @throws FileNotFoundException
    */
   public void saveAs(String filename) throws MissingFileAssociationException, FileNotFoundException, IOException {
-    _filename = filename;
-    save();
+    if (_filename == null)
+      throw new MissingFileAssociationException();
+    try (ObjectOutputStream obOut = new ObjectOutputStream(new FileOutputStream(_savefile))) {
+      obOut.writeObject(_store);
+      _savefile = filename;
+    }
   }
 
   /**
    * @param filename
    * @throws UnavailableFileException
    */
-  public void load(String filename) throws UnavailableFileException {
-    //FIXME implement serialization method
+  public void load(String filename) throws IOException, ClassNotFoundException {
+    try (ObjectInputStream obIn = new ObjectInputStream(new FileInputStream(filename))) {
+      _store = (Store) obIn.readObject();
+      _savefile = filename;
+    }
   }
 
   /**

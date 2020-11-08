@@ -26,7 +26,7 @@ public class Book extends Product implements Serializable {
 
   @Override
   public String toString() {
-    return getId() + " | " + getSupplierId() + " | " + getPrice() + " | " + getCriticalValue() + " | "
-          + getCurrentQuantity() + " | " + getAuthor() + " | " + getIsbn();
+    return getId() + "|" + getSupplierId() + "|" + getPrice() + "|" + getCriticalValue() + "|"
+          + getCurrentQuantity() + "|" + getAuthor() + "|" + getIsbn();
   }
 }

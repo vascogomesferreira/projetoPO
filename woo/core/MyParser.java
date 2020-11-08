@@ -74,7 +74,7 @@ public class MyParser {
       String name = components[2];
       String address = components[3];
 
-      // _store.registerClient(id, name, address);
+      _store.registerClient(id, name, address);
   }
 
   // Format: BOX|id|tipo-de-serviço|id-fornecedor|preço|valor-crítico|exemplares

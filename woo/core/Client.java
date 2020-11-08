@@ -15,11 +15,11 @@ public class Client implements Serializable {
   private List<Transaction> _transactions;
   private List<Notification> _notifications;
 
-  protected Client(String id, String name, String address, ClientStatus status){
+  protected Client(String id, String name, String address){
     _id = id;
     _name = name;
     _address = address;
-    _status = status;
+    _status = ClientStatus.NORMAL;
     _points = 0;
     _transactions = new ArrayList<>();
     _notifications = new ArrayList<>();
@@ -69,8 +69,8 @@ public class Client implements Serializable {
 
   @Override
   public String toString() {
-    return getId() + " | " + getName() + " | " + getAddress() + " | "
-          + getStatus() + " | ";
+    return getId() + "|" + getName() + "|" + getAddress() + "|"
+          + getStatus() + "|";
           // + getMadePurchases() + " | " + getPaidPurchases();
   }
 }

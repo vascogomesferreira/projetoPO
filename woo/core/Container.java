@@ -17,7 +17,7 @@ public class Container extends Box implements Serializable {
 
   @Override
   public String toString() {
-    return getId() + " | " + getSupplierId() + " | " + getPrice() + " | " + getCriticalValue() + " | "
-          + getCurrentQuantity() + " | " + getServiceType() + " | " + getServiceLevel();
+    return getId() + "|" + getSupplierId() + "|" + getPrice() + "|" + getCriticalValue() + "|"
+          + getCurrentQuantity() + "|" + getServiceType() + "|" + getServiceLevel();
   }
 }
