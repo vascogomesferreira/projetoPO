@@ -23,10 +23,12 @@ public class App {
       }
     }
 
-    Menu menu = new woo.app.main.Menu(storefront);
-    menu.open();
+    try {
+      woo.app.main.Menu menu = new woo.app.main.Menu(storefront);
+      menu.open();
+    } finally {
+      IO.close();
+    }
 
-    IO.close();
   }
-
-}
+}  

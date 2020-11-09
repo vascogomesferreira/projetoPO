@@ -37,13 +37,13 @@ public class DoRegisterProductBook extends Command<StoreManager> {
   @Override
   public final void execute() throws DialogException {
     _form.parse();
-    // try {
+     try {
       _receiver.registerProductBook(_id.value(), _supplierId.value(), _price.value().intValue(), _criticalValue.value().intValue(), 0, _title.value(), _author.value(), _isbn.value());
       _display.display();
-    // } catch (DuplicateProductKeyException dpke) {
-    //   throw new DuplicateProductKeyException(_id.value());
-    // } catch (UnknownSupplierKeyException uske) {
-    //   throw new UnknownSupplierKeyException(_supplierId.value());
-    // }
+     } catch (DuplicateProductKeyException dpke) {
+       throw new DuplicateProductKeyException(_id.value());
+     } catch (UnknownSupplierKeyException uske) {
+       throw new UnknownSupplierKeyException(_supplierId.value());
+     }
   }
 }

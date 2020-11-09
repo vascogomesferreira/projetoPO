@@ -16,6 +16,10 @@ public class Book extends Product implements Serializable {
     _isbn = isbn;
   }
 
+  public String getTitle() {
+    return _title;
+  }
+
   public String getAuthor() {
     return _author;
   }
@@ -26,7 +30,7 @@ public class Book extends Product implements Serializable {
 
   @Override
   public String toString() {
-    return getId() + "|" + getSupplierId() + "|" + getPrice() + "|" + getCriticalValue() + "|"
-          + getCurrentQuantity() + "|" + getAuthor() + "|" + getIsbn();
+    return "BOOK|" + getId() + "|" + getSupplierId() + "|" + getPrice() + "|" + getCriticalValue() + "|"
+          + getCurrentQuantity() + "|" + getTitle() + "|" + getAuthor() + "|" + getIsbn();
   }
 }

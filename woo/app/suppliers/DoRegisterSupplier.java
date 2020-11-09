@@ -5,6 +5,7 @@ import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
+import woo.app.exception.DuplicateSupplierKeyException;
 import woo.core.Supplier;
 
 /**
@@ -26,8 +27,11 @@ public class DoRegisterSupplier extends Command<StoreManager> {
   @Override
   public void execute() throws DialogException {
     _form.parse();
-    _receiver.registerSupplier(_id.value(), _name.value(), _address.value());
-
-    _display.display();
-  }
+     try {
+       _receiver.registerSupplier(_id.value(), _name.value(), _address.value());
+       _display.display();
+     } catch (DuplicateSupplierKeyException dpke) {
+       throw new DuplicateSupplierKeyException(_id.value());
+     }
+   }
 }

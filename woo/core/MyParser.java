@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 
 import woo.core.exception.BadEntryException;
-// add here more imports if needed
+
 
 public class MyParser {
   private Store _store;  // ou outra entidade
@@ -54,7 +54,7 @@ public class MyParser {
   }
 
   // Format: SUPPLIER|id|nome|endereço
-  private void parseSupplier(String line, String[] components)  throws BadEntryException {
+  private void parseSupplier(String line, String[] components) throws BadEntryException {
     if (components.length != 4)
       throw new BadEntryException("Invalid number of fields in supplier description (4) " + line);
 
@@ -62,7 +62,9 @@ public class MyParser {
     String name = components[2];
     String address = components[3];
 
-    // _store.registerSupplier(id, name, address);
+    Supplier supplier = new Supplier(id, name, address);
+
+    _store.addSupplier(supplier);
   }
 
   // Format: CLIENT|id|nome|endereço
@@ -74,7 +76,9 @@ public class MyParser {
       String name = components[2];
       String address = components[3];
 
-      _store.registerClient(id, name, address);
+      Client client = new Client(id, name, address);
+
+      _store.addClient(client);
   }
 
   // Format: BOX|id|tipo-de-serviço|id-fornecedor|preço|valor-crítico|exemplares

@@ -5,7 +5,7 @@ public enum ServiceType {
   NORMAL("NORMAL"),
   AIR("AIR"),
   EXPRESS("EXPRESS"),
-  BY_HAND("BY_HAND");
+  PERSONAL("PERSONAL");
 
   private String _serviceType;
 

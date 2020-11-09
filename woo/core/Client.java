@@ -45,32 +45,32 @@ public class Client implements Serializable {
     return _status;
   }
 
-  // public int getMadePurchases(){
-  //   int _madePurchases;
-  //   Iterator<Transaction> iter = _transactions.iterator();
-  //
-  //   while (iter.hasNext()){
-  //     Transaction transaction = iter.next();
-  //     _madePurchases += transaction.getCost();
-  //   }
-  //   return _madePurchases;
-  // }
-  //
-  // public int getPaidPurchases(){
-  //   int _paidPurchases;
-  //   Iterator<Transaction> iter = _transactions.iterator();
-  //
-  //   while (iter.hasNext()){
-  //     Transaction transaction = iter.next();
-  //     _paidPurchases += transaction.getAmountPaid();
-  //   }
-  //   return _paidPurchases;
-  // }
+  public int getMadePurchases(){
+    int _madePurchases = 0;
+    Iterator<Transaction> iter = _transactions.iterator();
+
+    while (iter.hasNext()){
+      Transaction transaction = iter.next();
+      _madePurchases += transaction.getCost();
+    }
+    return _madePurchases;
+  }
+
+  public int getPaidPurchases(){
+    int _paidPurchases = 0;
+    Iterator<Transaction> iter = _transactions.iterator();
+
+    while (iter.hasNext()){
+      Transaction transaction = iter.next();
+      _paidPurchases += transaction.getAmountPaid();
+    }
+    return _paidPurchases;
+  }
 
   @Override
   public String toString() {
     return getId() + "|" + getName() + "|" + getAddress() + "|"
-          + getStatus() + "|";
-          // + getMadePurchases() + " | " + getPaidPurchases();
+          + getStatus() + "|"
+          + getMadePurchases() + "|" + getPaidPurchases();
   }
 }

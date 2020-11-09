@@ -18,6 +18,9 @@ import java.io.FileNotFoundException;
 import woo.app.exception.InvalidDateException;
 import woo.app.exception.DuplicateProductKeyException;
 import woo.app.exception.UnknownSupplierKeyException;
+import woo.app.exception.UnknownClientKeyException;
+import woo.app.exception.DuplicateClientKeyException;
+import woo.app.exception.DuplicateSupplierKeyException;
 
 import woo.core.exception.MissingFileAssociationException;
 import woo.core.exception.BadEntryException;
@@ -62,8 +65,13 @@ public class Store implements Serializable {
     return suppliers;
   }
 
-  protected void registerSupplier(String id, String name, String address){
+  protected void registerSupplier(String id, String name, String address) throws DuplicateSupplierKeyException{
     _suppliers.put(id, new Supplier(id, name, address));
+  }
+
+  protected void addSupplier(Supplier supplier) {
+    String id = supplier.getId();
+    _suppliers.put(id, supplier);
   }
 
   protected List<Client> getAllClients(){
@@ -79,33 +87,38 @@ public class Store implements Serializable {
     return clients;
   }
 
-  protected Client getClient(String id) {
+  protected Client getClient(String id) throws UnknownClientKeyException {
     if (_clients.containsKey(id)) {
       return _clients.get(id);
+    } else {
+      throw new UnknownClientKeyException(id);
     }
-    return _clients.get(id);
   }
 
-  protected void registerClient(String id, String name, String address){
+  protected void registerClient(String id, String name, String address) throws DuplicateClientKeyException {
     _clients.put(id, new Client(id, name, address));
   }
 
-  protected void registerProductBook(String id, String supplierId, int price, int crit, int q, String title, String author, String isbn) /*throws DuplicateProductKeyException, UnknownSupplierKeyException */{
+  protected void addClient(Client client) {
+    String id = client.getId();
+    _clients.put(id, client);
+  }
+
+  protected void registerProductBook(String id, String supplierId, int price, int crit, int q, String title, String author, String isbn) throws DuplicateProductKeyException, UnknownSupplierKeyException {
     _products.put(id, new Book(id, supplierId, price, crit, q, title, author, isbn));
   }
 
-  protected void registerProductBox(String id, String supplierId, int price, int crit, int q, ServiceType s) /*throws DuplicateProductKeyException, UnknownSupplierKeyException*/ {
+  protected void registerProductBox(String id, String supplierId, int price, int crit, int q, ServiceType s) throws DuplicateProductKeyException, UnknownSupplierKeyException {
     _products.put(id, new Box(id, supplierId, price, crit, q, s));
   }
 
-  protected void registerProductContainer(String id, String supplierId, int price, int crit, int q, ServiceType s, ServiceLevel level) /*throws DuplicateProductKeyException, UnknownSupplierKeyException*/ {
+  protected void registerProductContainer(String id, String supplierId, int price, int crit, int q, ServiceType s, ServiceLevel level) throws DuplicateProductKeyException, UnknownSupplierKeyException {
     _products.put(id, new Container(id, supplierId, price, crit, q, s, level));
   }
 
   protected void addProduct(Product product){
     String id = product.getId();
     _products.put(id,product);
-    System.out.println(id);
   }
 
   protected List<Product> getAllProducts(){
@@ -126,7 +139,7 @@ public class Store implements Serializable {
     return _date;
   }
 
-  protected int advanceDay(int numberOfDays) /*throws InvalidDateException*/ {
+  protected int advanceDay(int numberOfDays) throws InvalidDateException {
     if (numberOfDays > 0)
       _date += numberOfDays;
 

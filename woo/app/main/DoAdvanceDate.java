@@ -21,9 +21,10 @@ public class DoAdvanceDate extends Command<StoreManager> {
   @Override
   public final void execute() throws DialogException {
     _form.parse();
-    // try {
+     try {
       _receiver.advanceDay(_numberOfDays.value());
-  //   } catch (InvalidDateException)
-  //
+    } catch (InvalidDateException ide) {
+      throw new InvalidDateException(_numberOfDays.value());
+    }
   }
 }

@@ -17,6 +17,15 @@ abstract public class Transaction implements Serializable {
     _date = date;
   }
 
+  public int getAmountPaid() {
+    if (_date == 0) {
+      return _cost;
+    }
+    else {
+      return 0;
+    }
+  }
+
   public int getCost() {
     return _cost;
   }

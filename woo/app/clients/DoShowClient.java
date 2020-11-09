@@ -4,6 +4,7 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
+import woo.app.exception.UnknownClientKeyException;
 
 import woo.core.Client;
 
@@ -21,8 +22,11 @@ public class DoShowClient extends Command<StoreManager> {
 
   @Override
   public void execute() throws DialogException {
-      _form.parse();
-      _display.popup(_receiver.getClient(_id.value()));
+    _form.parse();
+      try {
+        _display.popup(_receiver.getClient(_id.value()));
+      } catch(UnknownClientKeyException e) {
+        throw new UnknownClientKeyException(_id.value());
+      }
   }
-
 }

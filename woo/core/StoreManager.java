@@ -7,6 +7,13 @@ import woo.core.exception.UnavailableFileException;
 import woo.core.exception.MissingFileAssociationException;
 import woo.core.exception.ImportFileException;
 import woo.core.exception.BadEntryException;
+import woo.app.exception.UnknownClientKeyException;
+import woo.app.exception.InvalidDateException;
+import woo.app.exception.DuplicateProductKeyException;
+import woo.app.exception.UnknownSupplierKeyException;
+import woo.app.exception.InvalidDateException;
+import woo.app.exception.DuplicateClientKeyException;
+import woo.app.exception.DuplicateSupplierKeyException;
 
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
@@ -33,31 +40,39 @@ public class StoreManager {
     return _store.getAllSuppliers();
   }
 
-  public void registerSupplier(String id, String name, String address) {
+  public void registerSupplier(String id, String name, String address) throws DuplicateSupplierKeyException {
     _store.registerSupplier(id, name, address);
+  }
+
+  public void addSupplier(Supplier supplier) {
+    _store.addSupplier(supplier);
   }
 
   public List<Client> getAllClients() {
     return _store.getAllClients();
   }
 
-  public Client getClient(String id) {
+  public Client getClient(String id) throws UnknownClientKeyException {
     return _store.getClient(id);
   }
 
-  public void registerClient(String id, String name, String address) {
+  public void registerClient(String id, String name, String address) throws DuplicateClientKeyException {
     _store.registerClient(id, name, address);
   }
 
-  public void registerProductBook(String id, String supplierId, int price, int crit, int q, String title, String author, String isbn) {
+  public void addClient(Client client) {
+    _store.addClient(client);
+  }
+
+  public void registerProductBook(String id, String supplierId, int price, int crit, int q, String title, String author, String isbn) throws DuplicateProductKeyException, UnknownSupplierKeyException {
     _store.registerProductBook(id, supplierId, price, crit, q, title, author, isbn);
   }
 
-  public void registerProductBox(String id, String supplierId, int price, int crit, int q, ServiceType s) {
+  public void registerProductBox(String id, String supplierId, int price, int crit, int q, ServiceType s) throws DuplicateProductKeyException, UnknownSupplierKeyException {
     _store.registerProductBox(id, supplierId, price, crit, q, s);
   }
 
-  public void registerProductContainer(String id, String supplierId, int price, int crit, int q, ServiceType s, ServiceLevel level) {
+  public void registerProductContainer(String id, String supplierId, int price, int crit, int q, ServiceType s, ServiceLevel level) throws DuplicateProductKeyException, UnknownSupplierKeyException {
     _store.registerProductContainer(id, supplierId, price, crit, q, s, level);
   }
 
@@ -73,7 +88,7 @@ public class StoreManager {
     return _store.getDate();
   }
 
-  public int advanceDay(int numberOfDays){
+  public int advanceDay(int numberOfDays) throws InvalidDateException {
     return _store.advanceDay(numberOfDays);
   }
 
@@ -107,7 +122,7 @@ public class StoreManager {
    * @param filename
    * @throws UnavailableFileException
    */
-  public void load(String filename) throws IOException, ClassNotFoundException {
+  public void load(String filename) throws IOException, ClassNotFoundException, FileNotFoundException {
     try (ObjectInputStream obIn = new ObjectInputStream(new FileInputStream(filename))) {
       _store = (Store) obIn.readObject();
       _savefile = filename;

@@ -6,6 +6,7 @@ import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
 import java.io.IOException;
+import java.io.FileNotFoundException;
 import woo.app.exception.FileOpenFailedException;
 import woo.core.exception.UnavailableFileException;
 
@@ -28,6 +29,8 @@ public class DoOpen extends Command<StoreManager> {
     _form.parse();
     try {
       _receiver.load(_filename.value());
+    } catch (FileNotFoundException fnfe) {
+      throw new FileOpenFailedException(_filename.value());
     } catch (ClassNotFoundException | IOException e) {
       e.printStackTrace();
     }
