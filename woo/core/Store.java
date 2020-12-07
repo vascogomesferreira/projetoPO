@@ -227,6 +227,20 @@ public class Store implements Serializable {
     return products;
   }
 
+  protected void changeProductPrice(String productId, int newPrice){
+    String lowerCase = productId.toLowerCase();
+    List<Product> products = getAllProducts();
+
+    Iterator<Product> iter = products.iterator();
+
+    while (iter.hasNext()){
+      Product isEqual = iter.next();
+      if ((isEqual.getId().toLowerCase().contains(lowerCase))){
+        isEqual.setPrice(newPrice);
+      }
+    }
+  }
+
   /**
   * Increases the date by the number of days
   * @return the actual date

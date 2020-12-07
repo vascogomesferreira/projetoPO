@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * StoreManager: façade for the core classes.
@@ -81,8 +82,12 @@ public class StoreManager {
   }
 
   public List<Product> getAllProducts(){
-      return _store.getAllProducts();
-    }
+    return _store.getAllProducts();
+  }
+
+  public void changeProductPrice(String productId, int newPrice){
+    _store.changeProductPrice(productId, newPrice);
+  }
 
   public int getCurrentDate(){
     return _store.getDate();

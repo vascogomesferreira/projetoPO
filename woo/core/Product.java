@@ -43,6 +43,9 @@ abstract public class Product implements Serializable {
     return _currentQuantity;
   }
 
+  public void setPrice(int newPrice){
+    _price = newPrice;
+  }
 
   @Override
   public abstract String toString();

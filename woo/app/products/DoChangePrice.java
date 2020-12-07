@@ -23,6 +23,7 @@ public class DoChangePrice extends Command<StoreManager> {
 
   @Override
   public final void execute() throws DialogException {
-    //FIXME implement command
+    _form.parse();
+    _receiver.changeProductPrice(_productId.value(), _newPrice.value());
   }
 }
