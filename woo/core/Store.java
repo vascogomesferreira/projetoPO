@@ -129,6 +129,15 @@ public class Store implements Serializable {
     _suppliers.put(id, supplier);
   }
 
+  protected String toggleSupplierActive(String supplierId) throws UnknownSupplierKeyException{
+    if (_suppliers.containsKey(supplierId)){
+      return _suppliers.get(supplierId).toogleTransactions(supplierId);
+    } else {
+      throw new UnknownSupplierKeyException(supplierId);
+    }
+
+  }
+
   /**
   * @return a sorted list that contains all the clients
   */

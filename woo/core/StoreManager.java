@@ -58,6 +58,10 @@ public class StoreManager {
     _store.addSupplier(supplier);
   }
 
+  public String toggleSupplierActive(String supplierId) throws UnknownSupplierKeyException{
+    return _store.toggleSupplierActive(supplierId);
+  }
+
   public List<Client> getAllClients() {
     return _store.getAllClients();
   }

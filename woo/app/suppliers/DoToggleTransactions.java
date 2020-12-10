@@ -8,6 +8,8 @@ import woo.core.StoreManager;
 import woo.core.Transaction;
 import woo.core.Supplier;
 
+import woo.app.exception.UnknownSupplierKeyException;
+
 /**
  * Enable/disable supplier transactions.
  */
@@ -22,7 +24,11 @@ public class DoToggleTransactions extends Command<StoreManager> {
 
   @Override
   public void execute() throws DialogException {
-    //FIXME implement command
+    _form.parse();
+    try {
+      _display.popup(_receiver.toggleSupplierActive(_supplierId.value()));
+    } catch (UnknownSupplierKeyException uske) {
+      throw new UnknownSupplierKeyException(_supplierId.value());
+    }
   }
-
 }

@@ -42,10 +42,16 @@ public class Supplier implements Serializable {
       return Message.no();
   }
 
-  public boolean toogleActivation(){
+  public String toogleTransactions(String supplierId){
     _enabled = !_enabled;
 
-    return _enabled;
+    if (_enabled) {
+      return Message.transactionsOn(supplierId);
+    }
+    else {
+      return Message.transactionsOff(supplierId);
+    }
+
   }
 
   // public List<Transaction> getTransactions(){
