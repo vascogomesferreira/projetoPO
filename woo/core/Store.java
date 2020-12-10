@@ -388,6 +388,26 @@ public class Store implements Serializable {
     }
   }
 
+  protected List<Transaction> getSupplierTransactions(String supplierId) throws UnknownSupplierKeyException{
+    if (_suppliers.containsKey(supplierId)){
+      String lowerCase = supplierId.toLowerCase();
+      List<Transaction> transactions = new ArrayList<Transaction>(_transactions.values());
+      List<Transaction> supplierTransactions = new ArrayList<Transaction>();
+
+      Iterator<Transaction> iter = transactions.iterator();
+
+      while (iter.hasNext()){
+        Transaction containsSupplier = iter.next();
+        if ((containsSupplier.getId().toLowerCase().contains(lowerCase))){
+            supplierTransactions.add(containsSupplier);
+        }
+      }
+      return supplierTransactions;
+    } else {
+      throw new UnknownSupplierKeyException(supplierId);
+    }
+  }
+
   protected List<Transaction> getClientTransactions(String clientId){
     String lowerCase = clientId.toLowerCase();
     List<Transaction> transactions = new ArrayList<Transaction>(_transactions.values());

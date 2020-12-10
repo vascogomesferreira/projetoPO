@@ -5,8 +5,13 @@ import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
-import woo.core.Supplier;
+import woo.app.exception.UnknownSupplierKeyException;
+
 import woo.core.Transaction;
+
+import java.util.List;
+import java.util.ArrayList;
+
 
 /**
  * Show all transactions for specific supplier.
@@ -22,6 +27,16 @@ public class DoShowSupplierTransactions extends Command<StoreManager> {
 
   @Override
   public void execute() throws DialogException {
-    //FIXME implement command
+    _form.parse();
+    try {
+      List<Transaction> transactions = _receiver.getSupplierTransactions(_supplierId.value());
+
+      for (Transaction transaction: transactions){
+        _display.addLine(transaction.toString());
+      }
+      _display.display();
+    } catch (UnknownSupplierKeyException uske) {
+      throw new UnknownSupplierKeyException(_supplierId.value());
+    }
   }
 }

@@ -122,6 +122,10 @@ public class StoreManager {
     return _store.getTransaction(id);
   }
 
+  public List<Transaction> getSupplierTransactions(String supplierId) throws UnknownSupplierKeyException{
+    return _store.getSupplierTransactions(supplierId);
+  }
+
   public List<Transaction> getClientTransactions(String clientId){
     return _store.getClientTransactions(clientId);
   }
