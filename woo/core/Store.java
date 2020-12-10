@@ -89,7 +89,7 @@ public class Store implements Serializable {
 
     Comparator<Supplier> comparator = new Comparator<Supplier>() {
       public int compare(Supplier s1, Supplier s2) {
-        return s1.getId().compareTo(s2.getId());
+        return s1.getId().toLowerCase().compareTo(s2.getId().toLowerCase());
       }
     };
 
