@@ -5,6 +5,9 @@ import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
+import woo.app.exception.UnknownProductKeyException;
+
+
 import woo.core.Product;
 
 /**
@@ -21,6 +24,7 @@ public class DoChangePrice extends Command<StoreManager> {
     _newPrice = _form.addIntegerInput(Message.requestPrice());
   }
 
+  /*TODO: EXCEPTIONS*/
   @Override
   public final void execute() throws DialogException {
     _form.parse();

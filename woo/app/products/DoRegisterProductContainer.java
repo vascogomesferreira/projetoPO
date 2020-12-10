@@ -5,11 +5,14 @@ import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
+import java.lang.IllegalArgumentException;
+
 import woo.app.exception.DuplicateProductKeyException;
 import woo.app.exception.UnknownSupplierKeyException;
-import woo.core.Container;
-import woo.core.ServiceType;
-import woo.core.ServiceLevel;
+import woo.app.exception.UnknownServiceTypeException;
+import woo.app.exception.UnknownServiceLevelException;
+
+import woo.core.exception.UnknownCoreServiceType;
 
 /**
  * Register container.
@@ -39,12 +42,16 @@ public class DoRegisterProductContainer extends Command<StoreManager> {
   public final void execute() throws DialogException {
     _form.parse();
     try {
-      _receiver.registerProductContainer(_id.value(), _supplierId.value(), _price.value().intValue(), _criticalValue.value().intValue(), 0 , ServiceType.valueOf(_serviceType.value()), ServiceLevel.valueOf(_serviceLevel.value()));
+      _receiver.registerProductContainer(_id.value(), _supplierId.value(), _price.value().intValue(), _criticalValue.value().intValue(), 0 , _serviceType.value(), _serviceLevel.value());
       _display.display();
      } catch (DuplicateProductKeyException dpke) {
        throw new DuplicateProductKeyException(_id.value());
      } catch (UnknownSupplierKeyException uske) {
        throw new UnknownSupplierKeyException(_supplierId.value());
+     } catch (UnknownCoreServiceType uste) {
+       throw new UnknownServiceTypeException(_serviceType.value());
+     } catch (IllegalArgumentException ucst) {
+       throw new UnknownServiceLevelException(_serviceLevel.value());
      }
   }
 }

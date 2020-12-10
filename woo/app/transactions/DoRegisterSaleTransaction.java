@@ -29,7 +29,7 @@ public class DoRegisterSaleTransaction extends Command<StoreManager> {
 
   @Override
   public final void execute() throws DialogException {
-    //FIXME implement command
+    _form.parse();
+    _receiver.registerSale(_clientId.value(), _paymentDeadline.value().intValue(), _productId.value(), _quantity.value().intValue());
   }
-
 }

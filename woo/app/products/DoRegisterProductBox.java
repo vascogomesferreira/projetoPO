@@ -5,10 +5,11 @@ import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
+import java.lang.IllegalArgumentException;
+
 import woo.app.exception.DuplicateProductKeyException;
 import woo.app.exception.UnknownSupplierKeyException;
-import woo.core.Box;
-import woo.core.ServiceType;
+import woo.app.exception.UnknownServiceTypeException;
 
 /**
  * Register box.
@@ -19,7 +20,6 @@ public class DoRegisterProductBox extends Command<StoreManager> {
   private Input<Integer> _price;
   private Input<Integer> _criticalValue;
   private Input<String> _supplierId;
-  private Input<String> _serviceLevel;
   private Input<String> _serviceType;
 
   public DoRegisterProductBox(StoreManager receiver) {
@@ -35,12 +35,14 @@ public class DoRegisterProductBox extends Command<StoreManager> {
   public final void execute() throws DialogException {
     _form.parse();
      try {
-      _receiver.registerProductBox(_id.value(), _supplierId.value(), _price.value().intValue(), _criticalValue.value().intValue(), 0 , ServiceType.valueOf(_serviceType.value()));
-      _display.display();
+       _receiver.registerProductBox(_id.value(), _supplierId.value(), _price.value().intValue(), _criticalValue.value().intValue(), 0, _serviceType.value());
+       _display.display();
      } catch (DuplicateProductKeyException dpke) {
        throw new DuplicateProductKeyException(_id.value());
      } catch (UnknownSupplierKeyException uske) {
        throw new UnknownSupplierKeyException(_supplierId.value());
+     } catch (IllegalArgumentException iae) {
+       throw new UnknownServiceTypeException(_serviceType.value());
      }
   }
 }

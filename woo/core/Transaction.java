@@ -7,16 +7,18 @@ import java.util.Iterator;
 
 abstract public class Transaction implements Serializable {
 
+  private int _transactionId;
   private int _cost;
-  private int _id;
+  private String _id;
   private int _date;
 
-  protected Transaction(int id, int cost, int date){
+  protected Transaction(int transactionId, String id, int cost, int date){
+    _transactionId = transactionId;
     _id = id;
     _cost = cost;
     _date = date;
   }
-
+  
   public int getAmountPaid() {
     if (_date == 0) {
       return _cost;
@@ -26,11 +28,19 @@ abstract public class Transaction implements Serializable {
     }
   }
 
+  public int getDate(){
+    return _date;
+  }
+
   public int getCost() {
     return _cost;
   }
 
-  public int getId(){
+  public int getTransId(){
+    return _transactionId;
+  }
+
+  public String getId(){
     return _id;
   }
 

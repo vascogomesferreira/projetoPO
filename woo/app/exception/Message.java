@@ -93,7 +93,7 @@ public class Message {
   /**
    * @param product key
    * @param requested
-   * @param available 
+   * @param available
    * @return string with requested quantity.
    */
   public static final String unavailable(String key, int requested, int available) {
@@ -139,5 +139,4 @@ public class Message {
   public static String invalidDate(int date) {
     return "Data inválida: " + date;
   }
-
 }

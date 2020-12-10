@@ -8,6 +8,9 @@ import woo.core.StoreManager;
 import woo.core.Client;
 import woo.core.Transaction;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * Show all transactions for a specific client.
  */
@@ -22,7 +25,12 @@ public class DoShowClientTransactions extends Command<StoreManager> {
 
   @Override
   public void execute() throws DialogException {
-    //FIXME implement command
-  }
+    _form.parse();
+    List<Transaction> transactions = _receiver.getClientTransactions(_clientId.value());
 
+    for (Transaction transaction: transactions){
+      _display.addLine(transaction.toString());
+    }
+    _display.display();
+  }
 }

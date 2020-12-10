@@ -67,10 +67,43 @@ public class Client implements Serializable {
     return _paidPurchases;
   }
 
+  // public List<Notification> getNotifications(){
+  //   List<Notification> notifications = new ArrayList<>(_notifications);
+  //
+  //   Iterator<Notification> iter = notifications.iterator();
+  //
+  //   while (iter.hasNext()){
+  //     Notification nextNotification = iter.next();
+  //     // if (nextNotification.getActive()){
+  //     //   notifications.remove(nextNotification);
+  //     // }
+  //   }
+  //
+  //   _notifications.clear();
+  //   return notifications;
+  // }
+
+  // public void addProductNotification(Product product){
+  //   Notification notification = new Notification(product);
+  //   _notifications.add(notification);
+  // }
+  //
+  // public String toggleNotifications(Product product){
+  //   Iterator<Notification> iter = _notifications.iterator();
+  //
+  //   while (iter.hasNext()){
+  //     Notification isEqual = iter.next();
+  //     if ((isEqual.getId().contains(product.getId()))){
+  //       _notifications.remove(isEqual);
+  //     }
+  //   }
+  // }
+
   @Override
   public String toString() {
     return getId() + "|" + getName() + "|" + getAddress() + "|"
           + getStatus() + "|"
-          + getMadePurchases() + "|" + getPaidPurchases();
+          + getMadePurchases() + "|" + getPaidPurchases() + ("\n");
+          // + getNotifications();
   }
 }

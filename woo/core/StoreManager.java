@@ -7,6 +7,7 @@ import woo.core.exception.UnavailableFileException;
 import woo.core.exception.MissingFileAssociationException;
 import woo.core.exception.ImportFileException;
 import woo.core.exception.BadEntryException;
+import woo.core.exception.UnknownCoreServiceType;
 import woo.app.exception.UnknownClientKeyException;
 import woo.app.exception.InvalidDateException;
 import woo.app.exception.DuplicateProductKeyException;
@@ -14,6 +15,10 @@ import woo.app.exception.UnknownSupplierKeyException;
 import woo.app.exception.InvalidDateException;
 import woo.app.exception.DuplicateClientKeyException;
 import woo.app.exception.DuplicateSupplierKeyException;
+import woo.app.exception.UnknownServiceTypeException;
+import woo.app.exception.UnknownServiceLevelException;
+import woo.app.exception.UnknownTransactionKeyException;
+
 
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
@@ -41,6 +46,10 @@ public class StoreManager {
     return _store.getAllSuppliers();
   }
 
+  public Supplier getSupplier(String id) throws UnknownSupplierKeyException {
+    return _store.getSupplier(id);
+  }
+
   public void registerSupplier(String id, String name, String address) throws DuplicateSupplierKeyException {
     _store.registerSupplier(id, name, address);
   }
@@ -65,16 +74,24 @@ public class StoreManager {
     _store.addClient(client);
   }
 
+  public void addProductNotification(String productId){
+    _store.addProductNotification(productId);
+  }
+
+  public void toggleProductNotification(String clientId, String productId) throws UnknownClientKeyException{
+    _store.toggleProductNotification(clientId, productId);
+  }
+
   public void registerProductBook(String id, String supplierId, int price, int crit, int q, String title, String author, String isbn) throws DuplicateProductKeyException, UnknownSupplierKeyException {
     _store.registerProductBook(id, supplierId, price, crit, q, title, author, isbn);
   }
 
-  public void registerProductBox(String id, String supplierId, int price, int crit, int q, ServiceType s) throws DuplicateProductKeyException, UnknownSupplierKeyException {
+  public void registerProductBox(String id, String supplierId, int price, int crit, int q, String s) throws DuplicateProductKeyException, UnknownSupplierKeyException, UnknownServiceTypeException {
     _store.registerProductBox(id, supplierId, price, crit, q, s);
   }
 
-  public void registerProductContainer(String id, String supplierId, int price, int crit, int q, ServiceType s, ServiceLevel level) throws DuplicateProductKeyException, UnknownSupplierKeyException {
-    _store.registerProductContainer(id, supplierId, price, crit, q, s, level);
+  public void registerProductContainer(String id,  String supplierId, int price, int crit, int q, String s, String level) throws DuplicateProductKeyException, UnknownSupplierKeyException, UnknownServiceLevelException, UnknownServiceTypeException, UnknownCoreServiceType {
+    _store.registerProductContainer(id,  supplierId, price, crit, q, s, level);
   }
 
   public void addProduct(Product product){
@@ -85,8 +102,24 @@ public class StoreManager {
     return _store.getAllProducts();
   }
 
-  public void changeProductPrice(String productId, int newPrice){
+  public void changeProductPrice(String productId, int newPrice) {
     _store.changeProductPrice(productId, newPrice);
+  }
+
+  public void registerOrder(String supplierId, String productId, int q) throws UnknownSupplierKeyException{
+    _store.registerOrder(supplierId, productId, q);
+  }
+
+  public void registerSale(String clientId, int paymentDeadline, String productId, int amount){
+    _store.registerSale(clientId, paymentDeadline, productId, amount);
+  }
+
+  public Transaction getTransaction(int id) throws UnknownTransactionKeyException{
+    return _store.getTransaction(id);
+  }
+
+  public List<Transaction> getClientTransactions(String clientId){
+    return _store.getClientTransactions(clientId);
   }
 
   public int getCurrentDate(){

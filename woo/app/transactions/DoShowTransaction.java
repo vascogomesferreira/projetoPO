@@ -5,6 +5,8 @@ import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
+import woo.app.exception.UnknownTransactionKeyException;
+
 import woo.core.Transaction;
 /**
  * Show specific transaction.
@@ -21,6 +23,11 @@ public class DoShowTransaction extends Command<StoreManager> {
 
   @Override
   public final void execute() throws DialogException {
-    //FIXME implememt command
+    _form.parse();
+    try {
+      _display.popup(_receiver.getTransaction(_transactionId.value()));
+    } catch(UnknownTransactionKeyException utke) {
+      throw new UnknownTransactionKeyException(_transactionId.value());
+    }
   }
 }

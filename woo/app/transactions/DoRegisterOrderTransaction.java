@@ -27,8 +27,17 @@ public class DoRegisterOrderTransaction extends Command<StoreManager> {
     _more = _form.addBooleanInput(Message.requestMore());
   }
 
+  // TODO : EXCEPTIONS
   @Override
   public final void execute() throws DialogException {
-    //FIXME implement command
+
+    // try {
+    while(true){
+      _form.parse();
+      _receiver.registerOrder(_supplierId.value(), _productId.value(), _quantity.value().intValue());
+      if (!_more.value().equals(true)){
+        break;
+      }
+    }
   }
 }

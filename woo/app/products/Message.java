@@ -23,7 +23,7 @@ public class Message {
    * @return string prompting for service type.
    */
   public static String requestServiceType() {
-    return "Tipo de serviço de transporte: ";
+    return "Tipo de serviço: ";
   }
 
   /**

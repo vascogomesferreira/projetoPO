@@ -21,9 +21,14 @@ import woo.app.exception.UnknownSupplierKeyException;
 import woo.app.exception.UnknownClientKeyException;
 import woo.app.exception.DuplicateClientKeyException;
 import woo.app.exception.DuplicateSupplierKeyException;
+import woo.app.exception.UnknownServiceTypeException;
+import woo.app.exception.UnknownServiceLevelException;
+import woo.app.exception.UnknownTransactionKeyException;
+
 
 import woo.core.exception.MissingFileAssociationException;
 import woo.core.exception.BadEntryException;
+import woo.core.exception.UnknownCoreServiceType;
 
 /**
  * Class Store implements a store.
@@ -60,12 +65,16 @@ public class Store implements Serializable {
   */
   private Map<String, Supplier> _suppliers;
 
+  /**/
+  private Map<String, List<String>> _notificationsReceivers;
+
   /**
   * The constructor of the class Store.
   * It creats four HashMaps and initializes the date
   */
   public Store(){
     _date = 0;
+    _nextTransactionId = 0;
     _products = new HashMap<>();
     _transactions = new HashMap<>();
     _clients = new HashMap<>();
@@ -88,6 +97,14 @@ public class Store implements Serializable {
     return suppliers;
   }
 
+  protected Supplier getSupplier(String id) throws UnknownSupplierKeyException {
+    if (_suppliers.containsKey(id)) {
+      return _suppliers.get(id);
+    } else {
+      throw new UnknownSupplierKeyException(id);
+    }
+  }
+
   /**
   * Registrates a supplier with his arguments
   * @param id
@@ -96,7 +113,11 @@ public class Store implements Serializable {
   * @throws DuplicateSupplierKeyException
   */
   protected void registerSupplier(String id, String name, String address) throws DuplicateSupplierKeyException{
-    _suppliers.put(id, new Supplier(id, name, address));
+    if (!(_suppliers.containsKey(id))){
+      _suppliers.put(id, new Supplier(id, name, address));
+    } else {
+      throw new DuplicateSupplierKeyException(id);
+    }
   }
 
   /**
@@ -145,7 +166,11 @@ public class Store implements Serializable {
   * @throws DuplicateClientKeyException
   */
   protected void registerClient(String id, String name, String address) throws DuplicateClientKeyException {
-    _clients.put(id, new Client(id, name, address));
+    if (!(_clients.containsKey(id))){
+      _clients.put(id, new Client(id, name, address));
+    } else {
+      throw new DuplicateClientKeyException(id);
+    }
   }
 
   /**
@@ -155,6 +180,22 @@ public class Store implements Serializable {
   protected void addClient(Client client) {
     String id = client.getId();
     _clients.put(id, client);
+  }
+
+  protected void addProductNotification(String productId){
+    List<Client> clients = getAllClients();
+
+    Iterator<Client> iter = clients.iterator();
+
+    while (iter.hasNext()){
+      Client nextClient = iter.next();
+      // nextClient.addProductNotification(productId);
+    }
+  }
+
+  protected void toggleProductNotification(String clientId, String productId) throws UnknownClientKeyException{
+    Client client = getClient(clientId);
+    // client.toggleNotifications(productId);
   }
 
   /**
@@ -170,8 +211,20 @@ public class Store implements Serializable {
   * @throws UnknownSupplierKeyException
   */
   protected void registerProductBook(String id, String supplierId, int price, int crit, int q, String title, String author, String isbn) throws DuplicateProductKeyException, UnknownSupplierKeyException {
-    _products.put(id, new Book(id, supplierId, price, crit, q, title, author, isbn));
+    if (!(_products.containsKey(id))){
+      if(_suppliers.containsKey(supplierId)){
+        _products.put(id, new Book(id, supplierId, price, crit, q, title, author, isbn));
+        // addProductNotification(id);
+      }
+      else {
+        throw new UnknownSupplierKeyException(supplierId);
+      }
+    } else {
+      throw new DuplicateProductKeyException(id);
+    }
   }
+
+
 
   /**
   * Registrates a client with his arguments
@@ -183,9 +236,20 @@ public class Store implements Serializable {
   * @throws DuplicateProductKeyException
   * @throws UnknownSupplierKeyException
   */
-  protected void registerProductBox(String id, String supplierId, int price, int crit, int q, ServiceType s) throws DuplicateProductKeyException, UnknownSupplierKeyException {
-    _products.put(id, new Box(id, supplierId, price, crit, q, s));
+  protected void registerProductBox(String id, String supplierId, int price, int crit, int q, String s) throws DuplicateProductKeyException, UnknownSupplierKeyException, UnknownServiceTypeException {
+    if (!(_products.containsKey(id))){
+      if(_suppliers.containsKey(supplierId)){
+        _products.put(id, new Box(id, supplierId, price, crit, q, ServiceType.valueOf(s)));
+        // addProductNotification(id);
+      }
+      else {
+        throw new UnknownSupplierKeyException(supplierId);
+      }
+    } else {
+      throw new DuplicateProductKeyException(id);
+    }
   }
+
 
   /**
   * Registrates a client with his arguments
@@ -198,8 +262,18 @@ public class Store implements Serializable {
   * @throws DuplicateProductKeyException
   * @throws UnknownSupplierKeyException
   */
-  protected void registerProductContainer(String id, String supplierId, int price, int crit, int q, ServiceType s, ServiceLevel level) throws DuplicateProductKeyException, UnknownSupplierKeyException {
-    _products.put(id, new Container(id, supplierId, price, crit, q, s, level));
+  protected void registerProductContainer(String id, String supplierId, int price, int crit, int q, String s, String level) throws DuplicateProductKeyException, UnknownSupplierKeyException, UnknownServiceTypeException, UnknownServiceLevelException, UnknownCoreServiceType {
+    if (!(_products.containsKey(id))){
+      if(_suppliers.containsKey(supplierId)){
+        _products.put(id, new Container(id, supplierId, price, crit, q, ServiceType.valueOf(s), ServiceLevel.valueOf(level)));
+        // addProductNotification(id);
+      }
+      else {
+        throw new UnknownSupplierKeyException(supplierId);
+      }
+    } else {
+      throw new DuplicateProductKeyException(id);
+    }
   }
 
   /**
@@ -227,19 +301,108 @@ public class Store implements Serializable {
     return products;
   }
 
-  protected void changeProductPrice(String productId, int newPrice){
+  protected void changeProductPrice(String productId, int newPrice) {
+    if (newPrice > 0) {
+      String lowerCase = productId.toLowerCase();
+      List<Product> products = getAllProducts();
+
+      Iterator<Product> iter = products.iterator();
+
+      while (iter.hasNext()){
+        Product isEqual = iter.next();
+        if ((isEqual.getId().toLowerCase().contains(lowerCase))){
+          isEqual.setPrice(newPrice);
+        }
+      }
+    }
+  }
+
+  protected void registerOrder(String supplierId, String productId, int q) throws UnknownSupplierKeyException {
+    int price = 0;
+    int orderPrice = 0;
+
     String lowerCase = productId.toLowerCase();
     List<Product> products = getAllProducts();
+    Supplier supplier = getSupplier(supplierId);
+
 
     Iterator<Product> iter = products.iterator();
 
     while (iter.hasNext()){
       Product isEqual = iter.next();
       if ((isEqual.getId().toLowerCase().contains(lowerCase))){
-        isEqual.setPrice(newPrice);
+        price = isEqual.getPrice();
       }
     }
+
+    orderPrice = q * price;
+
+
+    if (supplier.getEnabled().equals("SIM")) {
+      _transactions.put(_nextTransactionId, new Order(_nextTransactionId, supplierId, orderPrice, getDate()));
+      _nextTransactionId++;
+    }
   }
+
+  protected void registerSale(String clientId, int paymentDeadline, String productId, int amount){
+    int price = 0;
+    int salePrice = 0;
+    int currentQuantity = 0;
+
+    String lowerCase = productId.toLowerCase();
+    List<Product> products = getAllProducts();
+
+
+    Iterator<Product> iter = products.iterator();
+
+    while (iter.hasNext()){
+      Product isEqual = iter.next();
+      if ((isEqual.getId().toLowerCase().contains(lowerCase))){
+        price = isEqual.getPrice();
+        currentQuantity = isEqual.getCurrentQuantity();
+      }
+    }
+
+
+    salePrice = amount * price;
+
+    _transactions.put(_nextTransactionId, new Sale(_nextTransactionId, clientId, productId, amount, salePrice, getDate(), paymentDeadline));
+    _nextTransactionId++;
+  }
+
+  protected Transaction getTransaction(int id) throws UnknownTransactionKeyException {
+    if (_transactions.containsKey(id)) {
+      return _transactions.get(id);
+    }
+    else {
+      throw new UnknownTransactionKeyException(id);
+    }
+  }
+
+  protected List<Transaction> getClientTransactions(String clientId){
+    String lowerCase = clientId.toLowerCase();
+    List<Transaction> transactions = new ArrayList<Transaction>(_transactions.values());
+    List<Transaction> clientTransactions = new ArrayList<Transaction>();
+
+    Iterator<Transaction> iter = transactions.iterator();
+
+    while (iter.hasNext()){
+      Transaction containsClient = iter.next();
+      if ((containsClient.getId().toLowerCase().contains(lowerCase))){
+          clientTransactions.add(containsClient);
+      }
+    }
+
+    // Comparator<Transaction> comparator = new Comparator<Transaction>() {
+    //   public int compare(Transaction t1, Transaction t2) {
+    //     return t1.getTransId() - t2.getTransId();
+    //   }
+    // };
+    //
+    // clientTransactions.sort(comparator);
+    return clientTransactions;
+  }
+
 
   /**
   * Increases the date by the number of days
