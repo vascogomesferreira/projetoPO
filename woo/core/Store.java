@@ -310,6 +310,21 @@ public class Store implements Serializable {
     return products;
   }
 
+  protected List<Product> getProductsUnder(int price){
+      List<Product> products = getAllProducts();
+      List<Product> _productsUnder = new ArrayList<Product>();
+
+      Iterator<Product> iter = products.iterator();
+
+      while (iter.hasNext()){
+        Product isEqual = iter.next();
+        if ((isEqual.getPrice() < price)){
+          _productsUnder.add(isEqual);
+        }
+      }
+    return _productsUnder;
+  }
+
   protected void changeProductPrice(String productId, int newPrice) {
     if (newPrice > 0) {
       String lowerCase = productId.toLowerCase();

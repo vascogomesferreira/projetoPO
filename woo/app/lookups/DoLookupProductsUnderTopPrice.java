@@ -6,6 +6,8 @@ import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
 import woo.core.Product;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Lookup products cheaper than a given price.
@@ -21,6 +23,11 @@ public class DoLookupProductsUnderTopPrice extends Command<StoreManager> {
 
   @Override
   public void execute() throws DialogException {
-    //FIXME implement command
+    _form.parse();
+    List <Product> products = _receiver.getProductsUnder(_priceLimit.value().intValue());
+    for (Product product: products){
+      _display.addLine(product.toString());
+    }
+    _display.display();
   }
 }

@@ -106,6 +106,10 @@ public class StoreManager {
     return _store.getAllProducts();
   }
 
+  public List<Product> getProductsUnder(int price){
+    return _store.getProductsUnder(price);
+  }
+
   public void changeProductPrice(String productId, int newPrice) {
     _store.changeProductPrice(productId, newPrice);
   }
