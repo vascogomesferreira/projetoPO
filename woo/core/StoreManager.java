@@ -18,7 +18,8 @@ import woo.app.exception.DuplicateSupplierKeyException;
 import woo.app.exception.UnknownServiceTypeException;
 import woo.app.exception.UnknownServiceLevelException;
 import woo.app.exception.UnknownTransactionKeyException;
-
+import woo.app.exception.UnauthorizedSupplierException;
+import woo.app.exception.UnknownProductKeyException;
 
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
@@ -78,14 +79,6 @@ public class StoreManager {
     _store.addClient(client);
   }
 
-  public void addProductNotification(String productId){
-    _store.addProductNotification(productId);
-  }
-
-  public void toggleProductNotification(String clientId, String productId) throws UnknownClientKeyException{
-    _store.toggleProductNotification(clientId, productId);
-  }
-
   public void registerProductBook(String id, String supplierId, int price, int crit, int q, String title, String author, String isbn) throws DuplicateProductKeyException, UnknownSupplierKeyException {
     _store.registerProductBook(id, supplierId, price, crit, q, title, author, isbn);
   }
@@ -114,12 +107,17 @@ public class StoreManager {
     _store.changeProductPrice(productId, newPrice);
   }
 
-  public void registerOrder(String supplierId, String productId, int q) throws UnknownSupplierKeyException{
-    _store.registerOrder(supplierId, productId, q);
+  public void registerOrder(String supplierId, List<Item> items) throws IOException, UnknownSupplierKeyException, UnknownProductKeyException, UnauthorizedSupplierException {
+    _store.registerOrder(supplierId, items);
   }
 
-  public void registerSale(String clientId, int paymentDeadline, String productId, int amount){
-    _store.registerSale(clientId, paymentDeadline, productId, amount);
+  public List<Item> registerItems(List<String> productIds, List<Integer> quantities){
+    return _store.registerItems(productIds, quantities);
+  }
+
+
+  public void registerSale(String clientId, int paymentDeadline, String productId, int quantity, List<Item> items){
+    _store.registerSale(clientId, paymentDeadline, productId, quantity, items);
   }
 
   public Transaction getTransaction(int id) throws UnknownTransactionKeyException{
@@ -130,8 +128,12 @@ public class StoreManager {
     return _store.getSupplierTransactions(supplierId);
   }
 
-  public List<Transaction> getClientTransactions(String clientId){
+  public List<Transaction> getClientTransactions(String clientId) throws UnknownClientKeyException{
     return _store.getClientTransactions(clientId);
+  }
+
+  public List<Transaction> getPaidClientTransactions(String clientId) throws UnknownClientKeyException{
+    return _store.getPaidClientTransactions(clientId);
   }
 
   public int getCurrentDate(){

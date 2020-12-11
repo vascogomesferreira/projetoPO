@@ -11,14 +11,16 @@ abstract public class Transaction implements Serializable {
   private int _cost;
   private String _id;
   private int _date;
+  private List<Item> _items;
 
-  protected Transaction(int transactionId, String id, int cost, int date){
+  protected Transaction(int transactionId, String id, int cost, int date, List<Item> items){
     _transactionId = transactionId;
     _id = id;
     _cost = cost;
     _date = date;
+    _items = items;
   }
-  
+
   public int getAmountPaid() {
     if (_date == 0) {
       return _cost;
@@ -42,6 +44,14 @@ abstract public class Transaction implements Serializable {
 
   public String getId(){
     return _id;
+  }
+
+  public List<Item> getItems(){
+    return _items;
+  }
+
+  protected void addItem(Item it){
+    _items.add(it);
   }
 
   @Override

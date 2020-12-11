@@ -43,20 +43,12 @@ abstract public class Product implements Serializable {
     return _currentQuantity;
   }
 
-  // public void setCurrentQuantity(int newQuantity, List<Client> clients){
-  //  if (newQuantity > 0 && _currentQuantity == 0){
-  //   NOTIFICAR CLIENTES COM NEW, VERIFICAR SE ESTAO INACTIVE PARA ESTE PRODUTO
-  //   NOTIFICAR STORE
-  //  }
-  //   _currentQuantity = newQuantity;
-  // }
-
-  public void setPrice(int newPrice){
-    // if (newPrice < _price) {
-    //   NOTIFICAR TODOS OS CLIENTES COM BARGAIN, VERIFICAR SE ESTAO INACTIVE PARA ESTE PRODUTO
-    //   NOTIFICAR STORE
-    // }
+  protected void setPrice(int newPrice){
     _price = newPrice;
+  }
+
+  protected void setCurrentQuantity(int newQuantity){
+    _currentQuantity = newQuantity;
   }
 
   @Override

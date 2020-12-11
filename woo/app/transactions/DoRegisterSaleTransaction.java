@@ -5,9 +5,13 @@ import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import woo.core.Transaction;
 import woo.core.Product;
 import woo.core.Client;
+import woo.core.Item;
 /**
  * Register sale.
  */
@@ -29,7 +33,10 @@ public class DoRegisterSaleTransaction extends Command<StoreManager> {
 
   @Override
   public final void execute() throws DialogException {
+    List<Item> _items = new ArrayList<Item>();
+
     _form.parse();
-    _receiver.registerSale(_clientId.value(), _paymentDeadline.value().intValue(), _productId.value(), _quantity.value().intValue());
+    
+    _receiver.registerSale(_clientId.value(), _paymentDeadline.value().intValue(), _productId.value(), _quantity.value().intValue(), _items);
   }
 }

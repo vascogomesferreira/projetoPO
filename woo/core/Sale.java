@@ -2,28 +2,30 @@ package woo.core;
 
 import java.io.Serializable;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class Sale extends Transaction implements Serializable {
 
   private String _productId;
-  private String _productType;
-  private int _amount;
-  private int _priceWithDelay;
+  private int _quantity;
+  private int _priceWithDelay = 1;
   private int _paymentDeadline;
-  private int _amountPaid;
+  private int _amountPaid = 0;
   private int _paymentDate;
 
-  protected Sale(int id, String clientId, String productId, int amount, int cost, int date, int paymentDeadline, int amountPaid){
-    super(id, clientId, cost, date);
+  protected Sale(int id, String clientId, int cost, int date, String productId, int quantity, List<Item> items, int paymentDeadline, int amountPaid){
+    super(id, clientId, cost, date, items);
     _productId = productId;
-    _amount = amount;
+    _quantity = quantity;
     _paymentDeadline = paymentDeadline;
     _amountPaid = amountPaid;
   }
 
-  protected Sale(int id, String clientId, String productId, int amount, int cost, int date, int paymentDeadline){
-    super(id, clientId, cost, date);
+  protected Sale(int id, String clientId, int cost, int date, String productId, int quantity, List<Item> items, int paymentDeadline){
+    super(id, clientId, cost, date, items);
     _productId = productId;
-    _amount = amount;
+    _quantity = quantity;
     _paymentDeadline = paymentDeadline;
   }
 
@@ -31,12 +33,12 @@ public class Sale extends Transaction implements Serializable {
     return _productId;
   }
 
-  public int getAmount(){
-    return _amount;
+  public int getQuantity(){
+    return _quantity;
   }
 
   public int getRealAmount(){
-    return _priceWithDelay;
+    return (getCost() * _priceWithDelay);
   }
 
   public int getPaymentDeadline(){
@@ -51,14 +53,13 @@ public class Sale extends Transaction implements Serializable {
     return _paymentDate;
   }
 
-  public void setPriceWithDelayOrDiscount(int discount, int fine, int daysAfter){
+  protected void setPriceWithDelayOrDiscount(int discount, int fine, int daysAfter){
     _priceWithDelay = getCost() * discount + (daysAfter * (getCost() * fine));
   }
 
   @Override
   public String toString() {
-    return getTransId() + "|" + getId() + "|" + getProductId() + "|" + getAmount()
-    + "|" + getCost() + "|" + getRealAmount() + "|" + getPaymentDeadline() + "|"
-     + getPaymentDate();
+    return getTransId() + "|" + getId() + "|" + getProductId() + "|" + getQuantity() +
+    "|" + getCost() + "|" + getRealAmount() + "|" + getPaymentDeadline();
   }
 }

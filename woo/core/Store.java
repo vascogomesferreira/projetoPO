@@ -18,12 +18,14 @@ import java.io.FileNotFoundException;
 import woo.app.exception.InvalidDateException;
 import woo.app.exception.DuplicateProductKeyException;
 import woo.app.exception.UnknownSupplierKeyException;
+import woo.app.exception.UnknownProductKeyException;
 import woo.app.exception.UnknownClientKeyException;
 import woo.app.exception.DuplicateClientKeyException;
 import woo.app.exception.DuplicateSupplierKeyException;
 import woo.app.exception.UnknownServiceTypeException;
 import woo.app.exception.UnknownServiceLevelException;
 import woo.app.exception.UnknownTransactionKeyException;
+import woo.app.exception.UnauthorizedSupplierException;
 
 
 import woo.core.exception.MissingFileAssociationException;
@@ -97,6 +99,10 @@ public class Store implements Serializable {
     return suppliers;
   }
 
+  /**
+  *  @return A specific supplier based on his ID
+  */
+
   protected Supplier getSupplier(String id) throws UnknownSupplierKeyException {
     if (_suppliers.containsKey(id)) {
       return _suppliers.get(id);
@@ -129,6 +135,9 @@ public class Store implements Serializable {
     _suppliers.put(id, supplier);
   }
 
+  /**
+  * @return a string with the success of toggle supplier active variable
+  */
   protected String toggleSupplierActive(String supplierId) throws UnknownSupplierKeyException{
     if (_suppliers.containsKey(supplierId)){
       return _suppliers.get(supplierId).toogleTransactions(supplierId);
@@ -189,22 +198,6 @@ public class Store implements Serializable {
   protected void addClient(Client client) {
     String id = client.getId();
     _clients.put(id, client);
-  }
-
-  protected void addProductNotification(String productId){
-    List<Client> clients = getAllClients();
-
-    Iterator<Client> iter = clients.iterator();
-
-    while (iter.hasNext()){
-      Client nextClient = iter.next();
-      // nextClient.addProductNotification(productId);
-    }
-  }
-
-  protected void toggleProductNotification(String clientId, String productId) throws UnknownClientKeyException{
-    Client client = getClient(clientId);
-    // client.toggleNotifications(productId);
   }
 
   /**
@@ -310,6 +303,10 @@ public class Store implements Serializable {
     return products;
   }
 
+  /**
+  * @return a sorted list that contains all products under a certain value
+  */
+
   protected List<Product> getProductsUnder(int price){
       List<Product> products = getAllProducts();
       List<Product> _productsUnder = new ArrayList<Product>();
@@ -324,6 +321,10 @@ public class Store implements Serializable {
       }
     return _productsUnder;
   }
+
+  /**
+  * changes product price
+  */
 
   protected void changeProductPrice(String productId, int newPrice) {
     if (newPrice > 0) {
@@ -341,42 +342,68 @@ public class Store implements Serializable {
     }
   }
 
-  protected void registerOrder(String supplierId, String productId, int q) throws UnknownSupplierKeyException {
+  /**
+  * Register order on _transactions hashmap
+  */
+  protected void registerOrder(String supplierId, List<Item> items) throws IOException, UnknownSupplierKeyException, UnknownProductKeyException, UnauthorizedSupplierException {
     int price = 0;
     int orderPrice = 0;
 
-    String lowerCase = productId.toLowerCase();
     List<Product> products = getAllProducts();
     Supplier supplier = getSupplier(supplierId);
 
+    Iterator<Item> iterItem = items.iterator();
+    Iterator<Product> iterProduct = products.iterator();
 
-    Iterator<Product> iter = products.iterator();
-
-    while (iter.hasNext()){
-      Product isEqual = iter.next();
-      if ((isEqual.getId().toLowerCase().contains(lowerCase))){
-        price = isEqual.getPrice();
+    while(iterItem.hasNext()){
+      Item isItem = iterItem.next();
+      String lowerCase = isItem.getProductId().toLowerCase();
+      while (iterProduct.hasNext()){
+        Product isProduct = iterProduct.next();
+        if ((isProduct.getId().toLowerCase().contains(lowerCase))){
+          price = isProduct.getPrice();
+          isProduct.setCurrentQuantity(isProduct.getCurrentQuantity() + isItem.getQuantity());
+          orderPrice += (price * isItem.getQuantity());
+          break;
+        }
       }
     }
 
-    orderPrice = q * price;
-
-
     if (supplier.getEnabled().equals("SIM")) {
-      _transactions.put(_nextTransactionId, new Order(_nextTransactionId, supplierId, orderPrice, getDate()));
+      _transactions.put(_nextTransactionId, new Order(_nextTransactionId, supplierId, orderPrice, getDate(), items));
       _nextTransactionId++;
+    }
+    else {
+      throw new UnauthorizedSupplierException(supplierId);
     }
   }
 
-  protected void registerSale(String clientId, int paymentDeadline, String productId, int amount){
+  /**
+  * @return a list of items
+  */
+  protected List<Item> registerItems(List<String> productIds, List<Integer> quantities){
+    List<Item> itemsList = new ArrayList<Item>();
+
+    int size = productIds.size();
+
+    for(int i = 0; i < productIds.size(); i++){
+      Item it = new Item(productIds.get(i), quantities.get(i));
+      itemsList.add(it);
+    }
+
+    return itemsList;
+  }
+
+  /**
+  * Register sale on _transactions hashmap
+  */
+  protected void registerSale(String clientId, int paymentDeadline, String productId, int quantity, List<Item> items){
     int price = 0;
     int salePrice = 0;
     int currentQuantity = 0;
 
     String lowerCase = productId.toLowerCase();
     List<Product> products = getAllProducts();
-
-
     Iterator<Product> iter = products.iterator();
 
     while (iter.hasNext()){
@@ -384,16 +411,18 @@ public class Store implements Serializable {
       if ((isEqual.getId().toLowerCase().contains(lowerCase))){
         price = isEqual.getPrice();
         currentQuantity = isEqual.getCurrentQuantity();
+        isEqual.setCurrentQuantity(isEqual.getCurrentQuantity() - quantity);
       }
     }
 
-
-    salePrice = amount * price;
-
-    _transactions.put(_nextTransactionId, new Sale(_nextTransactionId, clientId, productId, amount, salePrice, getDate(), paymentDeadline));
+    salePrice = (price * quantity);
+    _transactions.put(_nextTransactionId, new Sale(_nextTransactionId, clientId, salePrice, getDate(), productId, quantity, items, paymentDeadline));
     _nextTransactionId++;
   }
 
+  /**
+  * @return a transaction specific by id
+  */
   protected Transaction getTransaction(int id) throws UnknownTransactionKeyException {
     if (_transactions.containsKey(id)) {
       return _transactions.get(id);
@@ -403,6 +432,9 @@ public class Store implements Serializable {
     }
   }
 
+  /**
+  * @return a list with specific supplier transactions
+  */
   protected List<Transaction> getSupplierTransactions(String supplierId) throws UnknownSupplierKeyException{
     if (_suppliers.containsKey(supplierId)){
       String lowerCase = supplierId.toLowerCase();
@@ -423,7 +455,10 @@ public class Store implements Serializable {
     }
   }
 
-  protected List<Transaction> getClientTransactions(String clientId){
+  /**
+  * @return a list with specific client transactions
+  */
+  protected List<Transaction> getClientTransactions(String clientId) throws UnknownClientKeyException{
     String lowerCase = clientId.toLowerCase();
     List<Transaction> transactions = new ArrayList<Transaction>(_transactions.values());
     List<Transaction> clientTransactions = new ArrayList<Transaction>();
@@ -436,14 +471,27 @@ public class Store implements Serializable {
           clientTransactions.add(containsClient);
       }
     }
+    return clientTransactions;
+  }
 
-    // Comparator<Transaction> comparator = new Comparator<Transaction>() {
-    //   public int compare(Transaction t1, Transaction t2) {
-    //     return t1.getTransId() - t2.getTransId();
-    //   }
-    // };
-    //
-    // clientTransactions.sort(comparator);
+  /**
+  * @return a list with specific client paid transactions
+  */
+  protected List<Transaction> getPaidClientTransactions(String clientId) throws UnknownClientKeyException{
+    String lowerCase = clientId.toLowerCase();
+    List<Transaction> transactions = new ArrayList<Transaction>(_transactions.values());
+    List<Transaction> clientTransactions = new ArrayList<Transaction>();
+
+    Iterator<Transaction> iter = transactions.iterator();
+
+    while (iter.hasNext()){
+      Transaction containsClient = iter.next();
+      if ((containsClient.getId().toLowerCase().contains(lowerCase))){
+        if(containsClient.getAmountPaid() != 0){
+          clientTransactions.add(containsClient);
+        }
+      }
+    }
     return clientTransactions;
   }
 
