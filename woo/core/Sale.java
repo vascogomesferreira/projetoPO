@@ -57,6 +57,10 @@ public class Sale extends Transaction implements Serializable {
     _priceWithDelay = getCost() * discount + (daysAfter * (getCost() * fine));
   }
 
+  protected void pay(){
+    _amountPaid = getCost();
+  }
+
   @Override
   public String toString() {
     return getTransId() + "|" + getId() + "|" + getProductId() + "|" + getQuantity() +

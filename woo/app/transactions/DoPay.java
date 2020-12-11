@@ -4,6 +4,7 @@ import pt.tecnico.po.ui.Command;
 import pt.tecnico.po.ui.DialogException;
 import pt.tecnico.po.ui.Input;
 import woo.core.StoreManager;
+import woo.app.exception.UnknownTransactionKeyException;
 
 import woo.core.Transaction;
 
@@ -21,6 +22,11 @@ public class DoPay extends Command<StoreManager> {
 
   @Override
   public final void execute() throws DialogException {
-    //FIXME implement command
+    _form.parse();
+    try{
+      _receiver.payTransaction(_transactionId.value().intValue());
+    } catch (UnknownTransactionKeyException utke){
+      throw new UnknownTransactionKeyException(_transactionId.value().intValue());
+    }
   }
 }

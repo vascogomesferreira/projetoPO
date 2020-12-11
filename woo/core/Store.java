@@ -475,6 +475,20 @@ public class Store implements Serializable {
   }
 
   /**
+  * Pay a specific transaction
+  */
+  protected void payTransaction(int id) throws UnknownTransactionKeyException{
+    Transaction payTrans;
+
+    if (_transactions.containsKey(id)) {
+      payTrans = _transactions.get(id);
+    }
+    else {
+      throw new UnknownTransactionKeyException(id);
+    }
+  }
+
+  /**
   * @return a list with specific client paid transactions
   */
   protected List<Transaction> getPaidClientTransactions(String clientId) throws UnknownClientKeyException{

@@ -132,6 +132,10 @@ public class StoreManager {
     return _store.getClientTransactions(clientId);
   }
 
+  public void payTransaction(int id) throws UnknownTransactionKeyException{
+    _store.payTransaction(id);
+  }
+
   public List<Transaction> getPaidClientTransactions(String clientId) throws UnknownClientKeyException{
     return _store.getPaidClientTransactions(clientId);
   }
